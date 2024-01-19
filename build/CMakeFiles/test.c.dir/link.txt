@@ -1,0 +1,3 @@
+D:\Programing\mingw64\bin\cmake.exe -E rm -f CMakeFiles\test.c.dir/objects.a
+D:\Programing\mingw64\bin\ar.exe qc CMakeFiles\test.c.dir/objects.a @CMakeFiles\test.c.dir\objects1.rsp
+D:\Programing\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\test.c.dir/objects.a -Wl,--no-whole-archive -o test.c.exe -Wl,--out-implib,libtest.c.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\test.c.dir\linkLibs.rsp

@@ -1,0 +1,38 @@
+[
+{
+  "directory": "D:/Programing/cpl/playground_run/build/src",
+  "command": "D:\\Programing\\mingw64\\bin\\gcc.exe  @CMakeFiles/playground_run.dir/includes_C.rsp -g -std=gnu2x -o CMakeFiles\\playground_run.dir\\main.c.obj -c D:\\Programing\\cpl\\playground_run\\src\\main.c",
+  "file": "D:/Programing/cpl/playground_run/src/main.c",
+  "output": "src/CMakeFiles/playground_run.dir/main.c.obj"
+},
+{
+  "directory": "D:/Programing/cpl/playground_run/build/src",
+  "command": "D:\\Programing\\mingw64\\bin\\gcc.exe  @CMakeFiles/playground_run.dir/includes_C.rsp -g -std=gnu2x -o CMakeFiles\\playground_run.dir\\start_menu.c.obj -c D:\\Programing\\cpl\\playground_run\\src\\start_menu.c",
+  "file": "D:/Programing/cpl/playground_run/src/start_menu.c",
+  "output": "src/CMakeFiles/playground_run.dir/start_menu.c.obj"
+},
+{
+  "directory": "D:/Programing/cpl/playground_run/build/src",
+  "command": "D:\\Programing\\mingw64\\bin\\gcc.exe  @CMakeFiles/playground_run.dir/includes_C.rsp -g -std=gnu2x -o CMakeFiles\\playground_run.dir\\game.c.obj -c D:\\Programing\\cpl\\playground_run\\src\\game.c",
+  "file": "D:/Programing/cpl/playground_run/src/game.c",
+  "output": "src/CMakeFiles/playground_run.dir/game.c.obj"
+},
+{
+  "directory": "D:/Programing/cpl/playground_run/build/src",
+  "command": "D:\\Programing\\mingw64\\bin\\gcc.exe  @CMakeFiles/playground_run.dir/includes_C.rsp -g -std=gnu2x -o CMakeFiles\\playground_run.dir\\utils\\print_text.c.obj -c D:\\Programing\\cpl\\playground_run\\src\\utils\\print_text.c",
+  "file": "D:/Programing/cpl/playground_run/src/utils/print_text.c",
+  "output": "src/CMakeFiles/playground_run.dir/utils/print_text.c.obj"
+},
+{
+  "directory": "D:/Programing/cpl/playground_run/build/src",
+  "command": "D:\\Programing\\mingw64\\bin\\gcc.exe  @CMakeFiles/playground_run.dir/includes_C.rsp -g -std=gnu2x -o CMakeFiles\\playground_run.dir\\utils\\character_motion.c.obj -c D:\\Programing\\cpl\\playground_run\\src\\utils\\character_motion.c",
+  "file": "D:/Programing/cpl/playground_run/src/utils/character_motion.c",
+  "output": "src/CMakeFiles/playground_run.dir/utils/character_motion.c.obj"
+},
+{
+  "directory": "D:/Programing/cpl/playground_run/build/src",
+  "command": "D:\\Programing\\mingw64\\bin\\gcc.exe  @CMakeFiles/playground_run.dir/includes_C.rsp -g -std=gnu2x -o CMakeFiles\\playground_run.dir\\utils\\score.c.obj -c D:\\Programing\\cpl\\playground_run\\src\\utils\\score.c",
+  "file": "D:/Programing/cpl/playground_run/src/utils/score.c",
+  "output": "src/CMakeFiles/playground_run.dir/utils/score.c.obj"
+}
+]

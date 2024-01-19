@@ -1,0 +1,3 @@
+D:\Programing\mingw64\bin\cmake.exe -E rm -f CMakeFiles\playground_run.dir/objects.a
+D:\Programing\mingw64\bin\ar.exe qc CMakeFiles\playground_run.dir/objects.a @CMakeFiles\playground_run.dir\objects1.rsp
+D:\Programing\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\playground_run.dir/objects.a -Wl,--no-whole-archive -o playground_run.exe -Wl,--out-implib,libplayground_run.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\playground_run.dir\linkLibs.rsp

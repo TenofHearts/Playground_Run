@@ -1,0 +1,81 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"id" : "GNU",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"D:/Programing/cpl/sdl2/mingw(CLion+VSC)/SDL2-2.26.0-allinone/x86_64-w64-mingw32/include",
+						"D:/Programing/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include",
+						"D:/Programing/mingw64/include",
+						"D:/Programing/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0/include-fixed",
+						"D:/Programing/mingw64/x86_64-w64-mingw32/include"
+					],
+					"linkDirectories" : 
+					[
+						"D:/Programing/mingw64/lib/gcc/x86_64-w64-mingw32/13.2.0",
+						"D:/Programing/mingw64/lib/gcc",
+						"D:/Programing/cpl/sdl2/mingw(CLion+VSC)/SDL2-2.26.0-allinone/x86_64-w64-mingw32/lib",
+						"D:/Programing/mingw64/x86_64-w64-mingw32/lib",
+						"D:/Programing/mingw64/lib"
+					],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : 
+					[
+						"mingw32",
+						"gcc",
+						"moldname",
+						"mingwex",
+						"kernel32",
+						"mcfgthread",
+						"kernel32",
+						"ntdll",
+						"advapi32",
+						"shell32",
+						"user32",
+						"kernel32",
+						"mingw32",
+						"gcc",
+						"moldname",
+						"mingwex",
+						"kernel32",
+						"mcfgthread",
+						"kernel32",
+						"ntdll"
+					]
+				},
+				"path" : "D:/Programing/mingw64/bin/gcc.exe",
+				"version" : "13.2.0"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"implicit" : {},
+				"path" : "D:/Programing/mingw64/bin/windres.exe"
+			},
+			"language" : "RC",
+			"sourceFileExtensions" : 
+			[
+				"rc",
+				"RC"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}
