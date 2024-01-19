@@ -90,6 +90,23 @@ void Game()
             {
             case SDL_QUIT:
                 exit(0);
+            case SDL_KEYDOWN:
+                SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
+                switch (event.key.keysym.scancode)
+                {
+                case ESC:
+                    exit(0);
+                    break;
+                case SPACE:
+                    Stop_Menu();
+                    break;
+                case R:
+                    Death_Menu(score);
+                    return;
+                default:
+                    break;
+                }
+                break;
             default:
                 break;
             }

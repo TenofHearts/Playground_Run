@@ -1,6 +1,8 @@
 add_executable(${PROJECT_NAME}
     main.c
     start_menu.c
+    stop_menu.c
+    death_menu.c
     game.c
     utils/print_text.c
     utils/character_motion.c

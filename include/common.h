@@ -15,7 +15,7 @@
 #define HANDLE_ERROR(msg)                         \
     SDL_Log(msg " failed: %s\n", SDL_GetError()); \
     exit(EXIT_FAILURE);
-#define WIN_L 830
+#define WIN_W 830
 #define WIN_H 450
 #define SQR_LEN 100
 #define CHARACTER_START 30
@@ -30,6 +30,10 @@
 
 #define SCORE_BOARD_H 40
 #define SCORE_BOARD_W 100
+
+#define ESC 41
+#define SPACE 44
+#define R 21
 
 typedef struct
 {

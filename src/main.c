@@ -6,10 +6,13 @@ App app;
 
 int main()
 {
+    atexit(&Quit);
     Init();
     Start();
-    Game();
-    atexit(&Quit);
+    while (1)
+    {
+        Game();
+    }
 }
 
 static void Init(void)
@@ -18,7 +21,7 @@ static void Init(void)
     {
         HANDLE_ERROR("SDL_Init");
     } // 初始化，对应SDL_QUIT()
-    app.window = SDL_CreateWindow("Playground Run!!!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_L, WIN_H, SDL_WINDOW_SHOWN);
+    app.window = SDL_CreateWindow("Playground Run!!!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIN_W, WIN_H, SDL_WINDOW_SHOWN);
     if (app.window == NULL)
     {
         HANDLE_ERROR("SDL_CreateWindow");
@@ -40,7 +43,7 @@ static void Init(void)
     app.win_rect.x = 0;
     app.win_rect.y = 0;
     app.win_rect.h = WIN_H;
-    app.win_rect.w = WIN_L;
+    app.win_rect.w = WIN_W;
 }
 static void Quit(void)
 {
@@ -49,6 +52,7 @@ static void Quit(void)
     SDL_DestroyRenderer(app.rdr);
     IMG_Quit();
     TTF_Quit();
+    // SDL_Log("Exit Success\n"); // for testing purposes only
 }
 static void Init_Game()
 {
