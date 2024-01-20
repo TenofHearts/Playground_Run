@@ -17,7 +17,7 @@ void Transition_Animation_4(int score)
 void Death_Menu(int score)
 {
     Transition_Animation_4(score);
-    SDL_Rect text = {265, 50, 300, 80}, restart_button = {365, 200, 100, 50}, exit_button = {365, 275, 100, 50};
+    SDL_Rect text = {265, 50, 300, 80}, restart_button = {328, 200, 174, 50}, exit_button = {365, 275, 100, 50};
     SDL_Color fg_w = {255, 255, 255, 255}, fg_g = {100, 100, 100, 255}, fg_lg = {200, 200, 200, 255};
     Print_Text(text, fg_w, "You Failed", 72);
     Print_Text(restart_button, fg_w, "Restart", 50);

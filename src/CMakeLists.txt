@@ -7,4 +7,5 @@ add_executable(${PROJECT_NAME}
     utils/print_text.c
     utils/character_motion.c
     utils/score.c
+    utils/init_game.c
 )

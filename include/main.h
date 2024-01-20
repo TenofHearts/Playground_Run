@@ -7,6 +7,5 @@
 
 static void Init(void);
 static void Quit(void);
-static void Init_Game();
 
 #endif

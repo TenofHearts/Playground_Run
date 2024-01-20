@@ -11,6 +11,7 @@
 #include "utils/print_text.h"
 #include "utils/character_motion.h"
 #include "utils/score.h"
+#include "utils/init_game.h"
 
 #define HANDLE_ERROR(msg)                         \
     SDL_Log(msg " failed: %s\n", SDL_GetError()); \
@@ -34,6 +35,10 @@
 #define ESC 41
 #define SPACE 44
 #define R 21
+#define W 26
+#define A 4
+#define S 22
+#define D 7
 
 typedef struct
 {

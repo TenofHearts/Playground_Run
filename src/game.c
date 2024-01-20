@@ -24,6 +24,7 @@ void Transition_Animation_2()
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
+    SDL_RenderCopy(app.rdr, background_texture, &app.win_rect, NULL);
     for (; app.character.character.x < CHARACTER_START; app.character.character.x++)
     {
         SDL_RenderClear(app.rdr);
@@ -43,7 +44,7 @@ void Transition_Animation_2()
     SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, background_texture, &app.win_rect, NULL);
     SDL_RenderCopy(app.rdr, character_texture, NULL, &app.character.character);
-    SDL_Rect text_rect = {315, 175, 200, 100};
+    SDL_Rect text_rect = {305, 175, 220, 100};
     Print_Text(text_rect, fg_w, "GO!!!!", 60);
     SDL_RenderPresent(app.rdr);
     SDL_Delay(1000);
@@ -79,6 +80,7 @@ void Background_Motion()
 
 void Game()
 {
+    Init_Game();
     Transition_Animation_2();
     Score_Update(score);
     SDL_Event event;
