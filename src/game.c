@@ -36,10 +36,13 @@ void Transition_Animation_2()
     SDL_Color fg_w = {255, 255, 255, 255};
     SDL_Rect numbers_rect[3] = {{285, 175, 100, 100}, {385, 175, 100, 100}, {485, 175, 100, 100}};
     Print_Text(numbers_rect[0], fg_w, "3..", 50);
+    SDL_RenderPresent(app.rdr);
     SDL_Delay(500);
     Print_Text(numbers_rect[1], fg_w, "2..", 50);
+    SDL_RenderPresent(app.rdr);
     SDL_Delay(500);
     Print_Text(numbers_rect[2], fg_w, "1..", 50);
+    SDL_RenderPresent(app.rdr);
     SDL_Delay(500);
     SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, background_texture, &app.win_rect, NULL);
@@ -71,18 +74,21 @@ void Background_Motion()
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
     SDL_RenderCopy(app.rdr, background_texture, &app.win_rect, NULL);
+    SDL_FreeSurface(background_surf);
+    SDL_DestroyTexture(background_texture);
+}
+void Motion()
+{
+    Background_Motion();
     Character_Motion();
     Score_Update(score);
     SDL_RenderPresent(app.rdr);
-    SDL_FreeSurface(background_surf);
-    SDL_DestroyTexture(background_texture);
 }
 
 void Game()
 {
     Init_Game();
     Transition_Animation_2();
-    Score_Update(score);
     SDL_Event event;
     while (1)
     {
@@ -105,6 +111,18 @@ void Game()
                 case R:
                     Death_Menu(score);
                     return;
+                case A:
+                    Switch_Lane_L();
+                    break;
+                case D:
+                    Switch_Lane_R();
+                    break;
+                case W:
+                    Character_Jump();
+                    break;
+                case S:
+                    Character_Duck();
+                    break;
                 default:
                     break;
                 }
@@ -113,7 +131,7 @@ void Game()
                 break;
             }
         }
-        Background_Motion();
+        Motion();
         // score++; // For testing purposes only
     }
 }

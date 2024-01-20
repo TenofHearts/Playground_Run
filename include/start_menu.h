@@ -4,6 +4,6 @@
 #include "common.h"
 
 void Start();
-void Transition_Animation();
+void Transition_Animation_1();
 
 #endif

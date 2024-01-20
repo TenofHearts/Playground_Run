@@ -2,11 +2,12 @@
 
 void Init_Game()
 {
-    app.character.acceleration_y = -10;
+    app.character.acceleration_y = -1;
     app.character.mode = CHARACTER_MODE_RUN;
     app.character.speed_y = 0;
     app.character.character.x = -SQR_LEN;
-    app.character.character.y = LINE_TWO_Y;
+    app.character.lane = 1;
+    app.character.character.y = LANE_TWO_Y;
     app.character.character.w = SQR_LEN;
     app.character.character.h = SQR_LEN;
     app.speed = 10;

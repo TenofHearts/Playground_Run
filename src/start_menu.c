@@ -51,7 +51,6 @@ void Start()
     }
     SDL_Rect rules_rect = {200, 50, 400, 175};
     SDL_RenderCopy(app.rdr, png_texture, NULL, &rules_rect);
-    SDL_RenderPresent(app.rdr);
     SDL_FreeSurface(png_surf);
     SDL_DestroyTexture(png_texture);
     SDL_FreeSurface(jpg_surf);
@@ -61,6 +60,7 @@ void Start()
     SDL_Color fg_b = {0, 0, 0, 255}, fg_lg = {100, 100, 100, 255};
     Print_Text(start_button, fg_b, "Start", 50);
     Print_Text(exit_button, fg_b, "Exit", 50);
+    SDL_RenderPresent(app.rdr);
     SDL_Event event;
     while (1)
     {
@@ -78,11 +78,13 @@ void Start()
                 {
                     SDL_Color fg_g = {200, 200, 200, 255};
                     Print_Text(start_button, fg_g, "Start", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else if (SDL_PointInRect(&pt, &exit_button))
                 {
                     SDL_Color fg_g = {200, 200, 200, 255};
                     Print_Text(exit_button, fg_g, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 break;
             case SDL_MOUSEBUTTONUP:
@@ -96,6 +98,7 @@ void Start()
                 else if (SDL_PointInRect(&pt, &exit_button))
                 {
                     Print_Text(exit_button, fg_b, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                     exit(0);
                 }
                 break;
@@ -106,16 +109,19 @@ void Start()
                 {
                     Print_Text(start_button, fg_lg, "Start", 50);
                     Print_Text(exit_button, fg_b, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_lg, "Exit", 50);
                     Print_Text(start_button, fg_b, "Start", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else
                 {
                     Print_Text(start_button, fg_b, "Start", 50);
                     Print_Text(exit_button, fg_b, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 break;
             default:

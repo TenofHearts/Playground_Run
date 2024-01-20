@@ -22,6 +22,7 @@ void Death_Menu(int score)
     Print_Text(text, fg_w, "You Failed", 72);
     Print_Text(restart_button, fg_w, "Restart", 50);
     Print_Text(exit_button, fg_w, "Exit", 50);
+    SDL_RenderPresent(app.rdr);
     SDL_Event event;
     SDL_Point pt = {0, 0};
     while (1)
@@ -39,15 +40,18 @@ void Death_Menu(int score)
                 if (SDL_PointInRect(&pt_m, &restart_button))
                 {
                     Print_Text(restart_button, fg_lg, "Restart", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_lg, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else
                 {
                     Print_Text(restart_button, fg_w, "Restart", 50);
                     Print_Text(exit_button, fg_w, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 break;
             case SDL_MOUSEBUTTONDOWN:
@@ -56,23 +60,26 @@ void Death_Menu(int score)
                 if (SDL_PointInRect(&pt, &restart_button))
                 {
                     Print_Text(restart_button, fg_g, "Restart", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_g, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (SDL_PointInRect(&pt, &restart_button))
                 {
                     Print_Text(restart_button, fg_w, "Restart", 50);
-                    SDL_RenderClear(app.rdr);
                     SDL_RenderPresent(app.rdr);
+                    SDL_RenderClear(app.rdr);
                     return;
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_w, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                     exit(0);
                 }
                 break;

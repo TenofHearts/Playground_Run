@@ -21,6 +21,7 @@ void Stop_Menu()
     Print_Text(pause, fg_b, "Pause", 72);
     Print_Text(continue_button, fg_b, "Continue", 50);
     Print_Text(exit_button, fg_b, "Exit", 50);
+    SDL_RenderPresent(app.rdr);
     SDL_Event event;
     SDL_Point pt = {0, 0};
     while (1)
@@ -38,15 +39,18 @@ void Stop_Menu()
                 if (SDL_PointInRect(&pt_m, &continue_button))
                 {
                     Print_Text(continue_button, fg_lg, "Continue", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_lg, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else
                 {
                     Print_Text(continue_button, fg_b, "Continue", 50);
                     Print_Text(exit_button, fg_b, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 break;
             case SDL_MOUSEBUTTONDOWN:
@@ -55,21 +59,25 @@ void Stop_Menu()
                 if (SDL_PointInRect(&pt, &continue_button))
                 {
                     Print_Text(continue_button, fg_g, "Continue", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_g, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                 }
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (SDL_PointInRect(&pt, &continue_button))
                 {
                     Print_Text(continue_button, fg_b, "Continue", 50);
+                    SDL_RenderPresent(app.rdr);
                     return;
                 }
                 else if (SDL_PointInRect(&pt_m, &exit_button))
                 {
                     Print_Text(exit_button, fg_b, "Exit", 50);
+                    SDL_RenderPresent(app.rdr);
                     exit(0);
                 }
                 break;

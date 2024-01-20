@@ -18,7 +18,6 @@ void Print_Text(SDL_Rect dest_rect, SDL_Color fg, char *content, int size)
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
     SDL_RenderCopy(app.rdr, txt_texture, NULL, &dest_rect);
-    SDL_RenderPresent(app.rdr);
     SDL_DestroyTexture(txt_texture);
     SDL_FreeSurface(txt_surf);
     TTF_CloseFont(font);

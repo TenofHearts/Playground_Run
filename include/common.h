@@ -21,9 +21,9 @@
 #define SQR_LEN 100
 #define CHARACTER_START 30
 
-#define LINE_ONE_Y 60
-#define LINE_TWO_Y 175
-#define LINE_THREE_Y 290
+#define LANE_ONE_Y 60
+#define LANE_TWO_Y 175
+#define LANE_THREE_Y 290
 
 #define CHARACTER_MODE_RUN 0
 #define CHARACTER_MODE_JUMP 1
@@ -40,9 +40,12 @@
 #define S 22
 #define D 7
 
+#define FR 40
+#define FT 50
+
 typedef struct
 {
-    int mode, speed_y, acceleration_y;
+    int mode, speed_y, acceleration_y, lane;
     SDL_Rect character;
 } character;
 
