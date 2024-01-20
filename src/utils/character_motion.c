@@ -21,14 +21,13 @@ void Character_Motion(void)
     {
         HANDLE_ERROR("IMG_Load");
     }
-    SDL_Texture *character_texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
-    if (character_texture == NULL)
+    app.character.texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
+    if (app.character.texture == NULL)
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
-    SDL_RenderCopy(app.rdr, character_texture, NULL, &app.character.character);
+    SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
     SDL_FreeSurface(character_surf);
-    SDL_DestroyTexture(character_texture);
 }
 
 void Switch_Lane_L()

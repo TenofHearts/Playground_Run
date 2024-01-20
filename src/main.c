@@ -41,6 +41,17 @@ static void Init(void)
     }
     Init_Window();
 }
+void Destroy_Texture()
+{
+    if (app.background_texture)
+    {
+        SDL_DestroyTexture(app.background_texture);
+    }
+    if (app.character.texture)
+    {
+        SDL_DestroyTexture(app.character.texture);
+    }
+}
 static void Quit(void)
 {
     SDL_Quit();
@@ -48,5 +59,6 @@ static void Quit(void)
     SDL_DestroyRenderer(app.rdr);
     IMG_Quit();
     TTF_Quit();
+    Destroy_Texture();
     SDL_Log("Exit Success\n"); // for testing purposes only
 }

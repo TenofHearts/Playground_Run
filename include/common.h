@@ -47,12 +47,14 @@ typedef struct
 {
     int mode, speed_y, acceleration_y, lane;
     SDL_Rect character;
+    SDL_Texture *texture;
 } character;
 
 typedef struct
 {
     int type;
     SDL_Rect obstacle;
+    SDL_Texture *texture;
 } obstacle;
 
 typedef struct
@@ -75,6 +77,7 @@ typedef struct
     SDL_Rect win_rect;
     int speed;
     score_board score_board;
+    SDL_Texture *background_texture;
 } App;
 
 extern App app;

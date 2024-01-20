@@ -28,17 +28,17 @@ void Transition_Animation_1()
 
 void Start()
 {
-    SDL_Surface *jpg_surf = IMG_Load("res/image/runway_v3.jpg");
-    if (jpg_surf == NULL)
-    {
-        HANDLE_ERROR("IMG_Load");
-    } // 导入图片，要释放
-    SDL_Texture *jpg_texture = SDL_CreateTextureFromSurface(app.rdr, jpg_surf);
-    if (jpg_texture == NULL)
-    {
-        HANDLE_ERROR("SDL_CreateTextureFromSurface");
-    }
-    SDL_RenderCopy(app.rdr, jpg_texture, &app.win_rect, NULL);
+    // SDL_Surface *jpg_surf = IMG_Load("res/image/runway_v3.jpg");
+    // if (jpg_surf == NULL)
+    // {
+    //     HANDLE_ERROR("IMG_Load");
+    // } // 导入图片，要释放
+    // SDL_Texture *jpg_texture = SDL_CreateTextureFromSurface(app.rdr, jpg_surf);
+    // if (jpg_texture == NULL)
+    // {
+    //     HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    // }
+    SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
     SDL_Surface *png_surf = IMG_Load("res/image/rules_v2.png");
     if (png_surf == NULL)
     {
@@ -53,8 +53,8 @@ void Start()
     SDL_RenderCopy(app.rdr, png_texture, NULL, &rules_rect);
     SDL_FreeSurface(png_surf);
     SDL_DestroyTexture(png_texture);
-    SDL_FreeSurface(jpg_surf);
-    SDL_DestroyTexture(jpg_texture);
+    // SDL_FreeSurface(jpg_surf);
+    // SDL_DestroyTexture(jpg_texture);
     SDL_Rect start_button = {350, 275, 100, 50};
     SDL_Rect exit_button = {350, 325, 100, 50};
     SDL_Color fg_b = {0, 0, 0, 255}, fg_lg = {100, 100, 100, 255};
