@@ -58,7 +58,6 @@ void Game()
     int steps = 0;
     while (1)
     {
-        app.time.frame_time = SDL_GetTicks64();
         if (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -115,6 +114,7 @@ void Game()
             return;
         }
         Frame_Control();
+        app.time.frame_time = SDL_GetTicks64();
         // app.score++; // For testing purposes only
     }
 }
