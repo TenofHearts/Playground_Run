@@ -36,7 +36,7 @@ void Character_Move()
     switch (app.character.mode)
     {
     case CHARACTER_MODE_JUMP:
-        app.character.character.y -= (app.character.speed_y / 2);
+        app.character.character.y -= (app.character.speed_y / 2.5);
         app.character.speed_y += app.character.acceleration_y;
         if (app.character.character.y >= lane_y[app.character.lane])
         {

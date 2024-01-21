@@ -43,8 +43,10 @@ void Motion()
 {
     Background_Motion();
     Character_Motion();
+    Obstacle_Motion();
     Score_Update();
     Display_Frame();
+    Deal_Invincible();
     SDL_RenderPresent(app.rdr);
 }
 
@@ -53,6 +55,7 @@ void Game()
     Init_Game();
     Transition_Animation_2();
     SDL_Event event;
+    int steps = 0;
     while (1)
     {
         app.time.frame_time = SDL_GetTicks64();
@@ -99,8 +102,19 @@ void Game()
                 break;
             }
         }
+        steps += app.speed;
+        if (steps >= SQR_LEN)
+        {
+            Obstacle_Generate();
+            steps = 0;
+        }
         Motion();
+        if (app.character.death)
+        {
+            Death_Menu();
+            return;
+        }
         Frame_Control();
-        app.score++; // For testing purposes only
+        // app.score++; // For testing purposes only
     }
 }

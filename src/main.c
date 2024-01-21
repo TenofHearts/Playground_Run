@@ -51,6 +51,10 @@ void Destroy_Texture()
     {
         SDL_DestroyTexture(app.character.texture);
     }
+    if (app.character.invincible_icon_texture)
+    {
+        SDL_DestroyTexture(app.character.invincible_icon_texture);
+    }
 }
 static void Quit(void)
 {

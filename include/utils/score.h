@@ -4,5 +4,6 @@
 #include "common.h"
 
 void Score_Update();
+void Score_Handle();
 
 #endif

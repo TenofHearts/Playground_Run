@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -23,6 +24,7 @@
 #define WIN_W 830
 #define WIN_H 450
 #define SQR_LEN 100
+#define HITBOX_LEN 25
 #define CHARACTER_START 30
 
 #define LANE_ONE_Y 60
@@ -48,29 +50,45 @@
 #define FR 50
 #define FT (1000 / FR)
 
+#define OBST_JUMP 0
+#define OBST_DUCK 1
+#define OBST_WALL 2
+#define OBST_COIN 3
+#define OBST_SHIELD 4
+#define OBST_NUM 5
+
+#define INVINCIBLE_TIME 5000
+
 typedef struct
 {
-    int mode, speed_y, acceleration_y, lane;
+    int mode, speed_y, acceleration_y, lane, invincible, death;
     SDL_Rect character;
-    SDL_Texture *texture;
+    SDL_Texture *texture, *invincible_icon_texture;
 } character;
 
 typedef struct
 {
-    int type;
-    SDL_Rect obstacle;
+    int type, lane;
+    SDL_Rect obstacle, hitbox;
     SDL_Texture *texture;
 } obstacle;
 
-typedef struct
+typedef struct obstacle_node obstacle_node;
+
+struct obstacle_node
 {
     obstacle obst;
-    obstacle *next;
+    obstacle_node *next;
+};
+
+typedef struct
+{
+    obstacle_node *head, *tail;
 } runway;
 
 typedef struct
 {
-    Uint32 duck_time, frame_time;
+    Uint32 duck_time, frame_time, invincible_time;
 } Time;
 
 typedef struct
@@ -78,7 +96,7 @@ typedef struct
     SDL_Window *window;
     SDL_Renderer *rdr;
     character character;
-    runway *head;
+    runway runway;
     SDL_Rect win_rect;
     int speed;
     SDL_Rect score_board;

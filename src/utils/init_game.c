@@ -10,7 +10,11 @@ void Init_Game()
     app.character.character.y = LANE_TWO_Y;
     app.character.character.w = SQR_LEN;
     app.character.character.h = SQR_LEN;
-    app.speed = 10;
+    app.character.invincible = 0;
+    app.character.death = 0;
+    app.speed = 5;
+    app.runway.head = NULL;
+    app.runway.tail = NULL;
     SDL_Surface *character_surf = IMG_Load("res/image/character_1.png");
     if (character_surf == NULL)
     {
@@ -21,9 +25,21 @@ void Init_Game()
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
+    SDL_Surface *invincible_icon_surf = IMG_Load("res/image/shield_1.png");
+    if (invincible_icon_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.character.invincible_icon_texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
+    if (app.character.invincible_icon_texture == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
     SDL_FreeSurface(character_surf);
+    SDL_FreeSurface(invincible_icon_surf);
     app.score = 0;
 }
+
 void Init_Window()
 {
     app.win_rect.x = 1750;
@@ -45,4 +61,5 @@ void Init_Window()
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
     SDL_FreeSurface(jpg_surf);
+    srand(time(NULL));
 }
