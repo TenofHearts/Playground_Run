@@ -4,8 +4,10 @@ add_executable(${PROJECT_NAME}
     stop_menu.c
     death_menu.c
     game.c
+    obstacle.c
     utils/print_text.c
     utils/character_motion.c
     utils/score.c
     utils/init_game.c
+    utils/time.c
 )

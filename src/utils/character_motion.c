@@ -4,6 +4,7 @@ int lane_y[3] = {LANE_ONE_Y, LANE_TWO_Y, LANE_THREE_Y};
 
 void Character_Motion(void)
 {
+    Character_Move();
     SDL_Surface *character_surf = NULL;
     switch (app.character.mode)
     {
@@ -35,15 +36,18 @@ void Character_Move()
     switch (app.character.mode)
     {
     case CHARACTER_MODE_JUMP:
-        app.character.character.y -= app.character.speed_y;
+        app.character.character.y -= (app.character.speed_y / 2);
         app.character.speed_y += app.character.acceleration_y;
-        if (app.character.character.y == lane_y[app.character.lane])
+        if (app.character.character.y >= lane_y[app.character.lane])
         {
             Character_Run();
         }
         break;
     case CHARACTER_MODE_DUCK:
-        /* code */
+        if (SDL_GetTicks64() - app.time.duck_time >= 700)
+        {
+            Character_Run();
+        }
         break;
     default:
         break;
@@ -73,6 +77,7 @@ void Character_Duck()
     {
         app.character.mode = CHARACTER_MODE_DUCK;
         app.character.character.y = lane_y[app.character.lane];
+        app.time.duck_time = SDL_GetTicks64();
     }
 }
 void Character_Jump()
@@ -80,7 +85,7 @@ void Character_Jump()
     if (app.character.mode != CHARACTER_MODE_JUMP)
     {
         app.character.mode = CHARACTER_MODE_JUMP;
-        app.character.speed_y = 30;
+        app.character.speed_y = 20;
     }
 }
 void Character_Run()

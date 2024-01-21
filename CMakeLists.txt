@@ -4,13 +4,6 @@ project(playground_run C)
 
 set(CMAKE_C_STANDARD 23)
 
-# add_executable(${PROJECT_NAME}
-#     src/main.c
-#     src/start_menu.c
-#     src/game.c
-#     src/utils/print_text.c
-# )
-
 include_directories(${PROJECT_NAME} PRIVATE include)
 
 add_subdirectory(src)

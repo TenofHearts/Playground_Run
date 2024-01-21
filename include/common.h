@@ -12,10 +12,14 @@
 #include "utils/character_motion.h"
 #include "utils/score.h"
 #include "utils/init_game.h"
+#include "utils/time.h"
 
 #define HANDLE_ERROR(msg)                         \
     SDL_Log(msg " failed: %s\n", SDL_GetError()); \
     exit(EXIT_FAILURE);
+
+// #define DISPLAY_TIME_
+
 #define WIN_W 830
 #define WIN_H 450
 #define SQR_LEN 100
@@ -41,8 +45,8 @@
 #define D 7
 #define T 23
 
-#define FR 40
-#define FT 50
+#define FR 50
+#define FT (1000 / FR)
 
 typedef struct
 {
@@ -66,8 +70,8 @@ typedef struct
 
 typedef struct
 {
-    SDL_Rect score, unchange;
-} score_board;
+    Uint32 duck_time, frame_time;
+} Time;
 
 typedef struct
 {
@@ -77,9 +81,10 @@ typedef struct
     runway *head;
     SDL_Rect win_rect;
     int speed;
-    score_board score_board;
+    SDL_Rect score_board;
     SDL_Texture *background_texture;
     int score;
+    Time time;
 } App;
 
 extern App app;

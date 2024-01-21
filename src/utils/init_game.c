@@ -2,7 +2,7 @@
 
 void Init_Game()
 {
-    app.character.acceleration_y = -6;
+    app.character.acceleration_y = -1;
     app.character.mode = CHARACTER_MODE_RUN;
     app.character.speed_y = 0;
     app.character.character.x = -SQR_LEN;
@@ -26,18 +26,14 @@ void Init_Game()
 }
 void Init_Window()
 {
-    app.win_rect.x = 0;
+    app.win_rect.x = 1750;
     app.win_rect.y = 0;
     app.win_rect.h = WIN_H;
     app.win_rect.w = WIN_W;
-    app.score_board.unchange.x = 0;
-    app.score_board.unchange.y = 0;
-    app.score_board.unchange.w = SCORE_BOARD_W;
-    app.score_board.unchange.h = SCORE_BOARD_H;
-    app.score_board.score.x = SCORE_BOARD_W;
-    app.score_board.score.y = 0;
-    app.score_board.score.w = SCORE_BOARD_W;
-    app.score_board.score.h = SCORE_BOARD_H;
+    app.score_board.x = 0;
+    app.score_board.y = 0;
+    app.score_board.w = SCORE_BOARD_W;
+    app.score_board.h = SCORE_BOARD_H;
     SDL_Surface *jpg_surf = IMG_Load("res/image/runway_v3.jpg");
     if (jpg_surf == NULL)
     {

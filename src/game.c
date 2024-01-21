@@ -1,7 +1,5 @@
 #include "game.h"
 
-static int score = 0;
-
 void Transition_Animation_2()
 {
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
@@ -44,9 +42,9 @@ void Background_Motion()
 void Motion()
 {
     Background_Motion();
-    Character_Move();
     Character_Motion();
     Score_Update();
+    Display_Frame();
     SDL_RenderPresent(app.rdr);
 }
 
@@ -57,6 +55,7 @@ void Game()
     SDL_Event event;
     while (1)
     {
+        app.time.frame_time = SDL_GetTicks64();
         if (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -101,6 +100,7 @@ void Game()
             }
         }
         Motion();
-        score++; // For testing purposes only
+        Frame_Control();
+        app.score++; // For testing purposes only
     }
 }

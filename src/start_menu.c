@@ -49,14 +49,14 @@ void Start()
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
-    SDL_Rect rules_rect = {200, 50, 400, 175};
+    SDL_Rect rules_rect = {215, 50, 400, 175};
     SDL_RenderCopy(app.rdr, png_texture, NULL, &rules_rect);
     SDL_FreeSurface(png_surf);
     SDL_DestroyTexture(png_texture);
     // SDL_FreeSurface(jpg_surf);
     // SDL_DestroyTexture(jpg_texture);
-    SDL_Rect start_button = {350, 275, 100, 50};
-    SDL_Rect exit_button = {350, 325, 100, 50};
+    SDL_Rect start_button = {365, 275, 100, 50};
+    SDL_Rect exit_button = {365, 325, 100, 50};
     SDL_Color fg_b = {0, 0, 0, 255}, fg_lg = {100, 100, 100, 255};
     Print_Text(start_button, fg_b, "Start", 50);
     Print_Text(exit_button, fg_b, "Exit", 50);
