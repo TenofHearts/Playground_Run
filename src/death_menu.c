@@ -1,6 +1,6 @@
 #include "death_menu.h"
 
-void Transition_Animation_4(int score)
+void Transition_Animation_4()
 {
     for (int i = 0; i <= 100; i++)
     {
@@ -8,15 +8,15 @@ void Transition_Animation_4(int score)
         SDL_SetRenderDrawBlendMode(app.rdr, SDL_BLENDMODE_BLEND);
         SDL_Rect window_area = {0, 0, WIN_W, WIN_H};
         SDL_RenderFillRect(app.rdr, &window_area);
-        Score_Update(score);
+        Score_Update();
         SDL_RenderPresent(app.rdr);
         SDL_Delay(3);
     }
 }
 
-void Death_Menu(int score)
+void Death_Menu()
 {
-    Transition_Animation_4(score);
+    Transition_Animation_4();
     SDL_Rect text = {265, 50, 300, 80}, restart_button = {328, 200, 174, 50}, exit_button = {365, 275, 100, 50};
     SDL_Color fg_w = {255, 255, 255, 255}, fg_g = {100, 100, 100, 255}, fg_lg = {200, 200, 200, 255};
     Print_Text(text, fg_w, "You Failed", 72);

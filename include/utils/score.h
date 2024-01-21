@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-void Score_Update(int);
+void Score_Update();
 
 #endif

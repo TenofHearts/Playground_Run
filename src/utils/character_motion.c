@@ -11,10 +11,10 @@ void Character_Motion(void)
         character_surf = IMG_Load("res/image/character_1.png");
         break;
     case CHARACTER_MODE_JUMP:
-        character_surf = IMG_Load("res/image/character_1.png");
+        character_surf = IMG_Load("res/image/character_2.png");
         break;
     case CHARACTER_MODE_DUCK:
-        character_surf = IMG_Load("res/image/character_1.png");
+        character_surf = IMG_Load("res/image/character_3.png");
         break;
     }
     if (character_surf == NULL)
@@ -28,6 +28,26 @@ void Character_Motion(void)
     }
     SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
     SDL_FreeSurface(character_surf);
+}
+
+void Character_Move()
+{
+    switch (app.character.mode)
+    {
+    case CHARACTER_MODE_JUMP:
+        app.character.character.y -= app.character.speed_y;
+        app.character.speed_y += app.character.acceleration_y;
+        if (app.character.character.y == lane_y[app.character.lane])
+        {
+            Character_Run();
+        }
+        break;
+    case CHARACTER_MODE_DUCK:
+        /* code */
+        break;
+    default:
+        break;
+    }
 }
 
 void Switch_Lane_L()
@@ -49,11 +69,25 @@ void Switch_Lane_R()
 
 void Character_Duck()
 {
-    app.character.mode = CHARACTER_MODE_DUCK;
-    app.character.character.y = lane_y[app.character.lane];
+    if (app.character.mode != CHARACTER_MODE_DUCK)
+    {
+        app.character.mode = CHARACTER_MODE_DUCK;
+        app.character.character.y = lane_y[app.character.lane];
+    }
 }
 void Character_Jump()
 {
-    app.character.mode = CHARACTER_MODE_JUMP;
-    app.character.speed_y = 30;
+    if (app.character.mode != CHARACTER_MODE_JUMP)
+    {
+        app.character.mode = CHARACTER_MODE_JUMP;
+        app.character.speed_y = 30;
+    }
+}
+void Character_Run()
+{
+    if (app.character.mode != CHARACTER_MODE_RUN)
+    {
+        app.character.mode = CHARACTER_MODE_RUN;
+        app.character.character.y = lane_y[app.character.lane];
+    }
 }

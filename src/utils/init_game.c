@@ -2,7 +2,7 @@
 
 void Init_Game()
 {
-    app.character.acceleration_y = -1;
+    app.character.acceleration_y = -6;
     app.character.mode = CHARACTER_MODE_RUN;
     app.character.speed_y = 0;
     app.character.character.x = -SQR_LEN;
@@ -22,6 +22,7 @@ void Init_Game()
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
     SDL_FreeSurface(character_surf);
+    app.score = 0;
 }
 void Init_Window()
 {

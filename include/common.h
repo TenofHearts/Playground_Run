@@ -39,6 +39,7 @@
 #define A 4
 #define S 22
 #define D 7
+#define T 23
 
 #define FR 40
 #define FT 50
@@ -78,6 +79,7 @@ typedef struct
     int speed;
     score_board score_board;
     SDL_Texture *background_texture;
+    int score;
 } App;
 
 extern App app;

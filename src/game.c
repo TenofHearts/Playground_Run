@@ -44,8 +44,9 @@ void Background_Motion()
 void Motion()
 {
     Background_Motion();
+    Character_Move();
     Character_Motion();
-    Score_Update(score);
+    Score_Update();
     SDL_RenderPresent(app.rdr);
 }
 
@@ -73,7 +74,7 @@ void Game()
                     Stop_Menu();
                     break;
                 case R:
-                    Death_Menu(score);
+                    Death_Menu();
                     return;
                 case A:
                     Switch_Lane_L();
@@ -87,6 +88,10 @@ void Game()
                 case S:
                     Character_Duck();
                     break;
+                /*For testing purposes only*/
+                case T:
+                    Character_Run();
+                    break;
                 default:
                     break;
                 }
@@ -96,6 +101,6 @@ void Game()
             }
         }
         Motion();
-        // score++; // For testing purposes only
+        score++; // For testing purposes only
     }
 }

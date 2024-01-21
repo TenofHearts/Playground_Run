@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-void Death_Menu(int score);
+void Death_Menu();
 
 #endif

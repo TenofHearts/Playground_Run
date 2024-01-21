@@ -4,9 +4,11 @@
 #include "common.h"
 
 void Character_Motion(void);
+void Character_Move();
 void Switch_Lane_L(void);
 void Switch_Lane_R(void);
 void Character_Duck(void);
 void Character_Jump(void);
+void Character_Run(void);
 
 #endif
