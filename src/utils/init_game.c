@@ -30,7 +30,7 @@ void Init_Game()
     {
         HANDLE_ERROR("IMG_Load");
     }
-    app.character.invincible_icon_texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
+    app.character.invincible_icon_texture = SDL_CreateTextureFromSurface(app.rdr, invincible_icon_surf);
     if (app.character.invincible_icon_texture == NULL)
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
