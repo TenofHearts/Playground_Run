@@ -195,7 +195,18 @@ void Obstacle_Generate()
     {
         lane_coefficient = rand() % 3;
         type_coefficient = rand() % OBST_NUM;
-        Create_Obstacle(lane_coefficient, type_coefficient);
+        if (type_coefficient == OBST_SHIELD)
+        {
+            type_coefficient = rand() % OBST_NUM;
+            if (type_coefficient == OBST_SHIELD)
+            {
+                Create_Obstacle(lane_coefficient, OBST_SHIELD);
+            }
+        }
+        else
+        {
+            Create_Obstacle(lane_coefficient, type_coefficient);
+        }
     }
     // Create_Obstacle(1, OBST_SHIELD);
 }
