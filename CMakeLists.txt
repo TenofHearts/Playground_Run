@@ -2,7 +2,17 @@ cmake_minimum_required(VERSION 3.26)
 
 project(playground_run C)
 
+set(CMAKE_INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/bin)
+
 set(CMAKE_C_STANDARD 23)
+
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+
+if(WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
+endif(WIN32)
+
+add_definitions(-DWINDOWS_APPLICATION)
 
 include_directories(include)
 

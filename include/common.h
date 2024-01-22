@@ -15,6 +15,10 @@
 #include "utils/init_game.h"
 #include "utils/time.h"
 
+#ifdef WINDOWS_APPLICATION
+#pragma comment(linker, "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+#endif
+
 #define HANDLE_ERROR(msg)                         \
     SDL_Log(msg " failed: %s\n", SDL_GetError()); \
     exit(EXIT_FAILURE);
