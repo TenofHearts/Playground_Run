@@ -30,7 +30,7 @@ void Create_Obstacle(int lane, int type)
     case OBST_WALL:
         obst_surf = IMG_Load("res/image/obstacle_3.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y;
-        p_ob->obst.hitbox.y = SQR_LEN;
+        p_ob->obst.hitbox.h = SQR_LEN;
         break;
     case OBST_COIN:
         obst_surf = IMG_Load("res/image/coin_1.png");
