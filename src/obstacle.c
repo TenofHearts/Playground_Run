@@ -114,7 +114,7 @@ void Obstacle_Motion()
 
 int Collition_Detect(SDL_Rect hitbox)
 {
-    SDL_Rect hitbox_character[3] = {{0, 0, 100, 100}, {0, 0, 100, 100}, {25, 75, 25, 25}};
+    SDL_Rect hitbox_character[3] = {{0, 0, 80, 100}, {0, 0, 80, 100}, {25, 75, 25, 25}};
     hitbox_character[app.character.mode].x += app.character.character.x;
     hitbox_character[app.character.mode].y += app.character.character.y;
     if (SDL_HasIntersection(&hitbox, &hitbox_character[app.character.mode]))
