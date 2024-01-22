@@ -1,11 +1,32 @@
 #include "game.h"
 
-void Clear_Buffer_Input()
+void Delay(int ms)
 {
+    ms /= 10;
     SDL_Event event;
-    while (SDL_PollEvent(&event))
+    for (int i = 0; i < ms; i++)
     {
-        /* code */
+        if (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.scancode)
+                {
+                case ESC:
+                    exit(0);
+                    break;
+                default:
+                    break;
+                }
+                break;
+            case SDL_QUIT:
+                exit(0);
+            default:
+                break;
+            }
+        }
+        SDL_Delay(10);
     }
 }
 void Transition_Animation_2()
@@ -23,25 +44,24 @@ void Transition_Animation_2()
     SDL_Rect numbers_rect[3] = {{285, 175, 100, 100}, {385, 175, 100, 100}, {485, 175, 100, 100}};
     Print_Text(numbers_rect[0], fg_w, "3..", 50);
     SDL_RenderPresent(app.rdr);
-    SDL_Delay(500);
+    Delay(500);
     Print_Text(numbers_rect[1], fg_w, "2..", 50);
     SDL_RenderPresent(app.rdr);
-    SDL_Delay(500);
+    Delay(500);
     Print_Text(numbers_rect[2], fg_w, "1..", 50);
     SDL_RenderPresent(app.rdr);
-    SDL_Delay(500);
+    Delay(500);
     SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
     SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
     SDL_Rect text_rect = {305, 175, 220, 100};
     Print_Text(text_rect, fg_w, "GO!!!!", 60);
     SDL_RenderPresent(app.rdr);
-    SDL_Delay(1000);
+    Delay(1000);
     SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
     SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
     SDL_RenderPresent(app.rdr);
-    Clear_Buffer_Input();
 }
 void Background_Motion()
 {
@@ -67,7 +87,7 @@ void Game()
     int steps = 0;
     while (1)
     {
-        if (SDL_PollEvent(&event))
+        while (SDL_PollEvent(&event))
         {
             switch (event.type)
             {

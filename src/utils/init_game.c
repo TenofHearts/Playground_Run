@@ -38,6 +38,7 @@ void Init_Game()
     SDL_FreeSurface(character_surf);
     SDL_FreeSurface(invincible_icon_surf);
     app.score = 0;
+    app.runway.prev_type = OBST_NUM;
 }
 
 void Init_Window()

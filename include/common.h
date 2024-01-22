@@ -92,6 +92,7 @@ struct obstacle_node
 typedef struct
 {
     obstacle_node *head, *tail;
+    int prev_type;
 } runway;
 
 typedef struct

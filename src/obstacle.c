@@ -5,6 +5,7 @@ extern int lane_y[3];
 void Create_Obstacle(int lane, int type)
 {
     obstacle_node *p_ob = (obstacle_node *)malloc(sizeof(obstacle_node));
+    app.runway.prev_type = type;
     p_ob->next = NULL;
     p_ob->obst.obstacle.x = WIN_W;
     p_ob->obst.obstacle.w = SQR_LEN;
@@ -195,7 +196,12 @@ void Obstacle_Generate()
     {
         lane_coefficient = rand() % 3;
         type_coefficient = rand() % OBST_NUM;
-        if (type_coefficient == OBST_SHIELD)
+        if (type_coefficient == app.runway.prev_type)
+        {
+            type_coefficient = (type_coefficient + 2) % OBST_NUM;
+            Create_Obstacle(lane_coefficient, type_coefficient);
+        }
+        else if (type_coefficient == OBST_SHIELD)
         {
             type_coefficient = rand() % OBST_NUM;
             if (type_coefficient == OBST_SHIELD)
