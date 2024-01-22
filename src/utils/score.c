@@ -2,7 +2,7 @@
 
 int stage = 0;
 
-SDL_Rect Score_rect = {0, 0, SCORE_BOARD_H, SCORE_BOARD_W};
+SDL_Rect Score_rect = {0, 0, SCORE_BOARD_W, SCORE_BOARD_H};
 
 void Score_Update()
 {
