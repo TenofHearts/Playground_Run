@@ -80,13 +80,25 @@ void Game()
                 case A:
                     Switch_Lane_L();
                     break;
+                case LEFT:
+                    Switch_Lane_L();
+                    break;
                 case D:
+                    Switch_Lane_R();
+                    break;
+                case RIGHT:
                     Switch_Lane_R();
                     break;
                 case W:
                     Character_Jump();
                     break;
+                case UP:
+                    Character_Jump();
+                    break;
                 case S:
+                    Character_Duck();
+                    break;
+                case DOWN:
                     Character_Duck();
                     break;
                 /*For testing purposes only*/
