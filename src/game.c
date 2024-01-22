@@ -1,5 +1,13 @@
 #include "game.h"
 
+void Clear_Buffer_Input()
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        /* code */
+    }
+}
 void Transition_Animation_2()
 {
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
@@ -33,6 +41,7 @@ void Transition_Animation_2()
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
     SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
     SDL_RenderPresent(app.rdr);
+    Clear_Buffer_Input();
 }
 void Background_Motion()
 {
