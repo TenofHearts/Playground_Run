@@ -5,6 +5,7 @@
 #include "stop_menu.h"
 #include "death_menu.h"
 #include "obstacle.h"
+#include "utils/motion.h"
 
 void Game();
 void Transition_Animation_2();

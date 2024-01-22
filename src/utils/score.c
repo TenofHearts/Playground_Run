@@ -19,7 +19,7 @@ void Score_Update()
 
 void Score_Handle()
 {
-    if (app.score <= 20 && stage > 0)
+    if (app.score <= 100 && stage > 0)
     {
         stage = 0;
     }

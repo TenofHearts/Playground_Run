@@ -28,6 +28,7 @@ src/utils/character_motion.c
 src/utils/score.c
 src/utils/init_game.c
 src/utils/time.c
+src/utils/motion.c
 )
 
 target_link_libraries(${PROJECT_NAME}
