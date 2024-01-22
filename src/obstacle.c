@@ -11,7 +11,7 @@ void Create_Obstacle(int lane, int type)
     p_ob->obst.obstacle.w = SQR_LEN;
     p_ob->obst.obstacle.h = SQR_LEN;
     p_ob->obst.obstacle.y = lane_y[lane];
-    p_ob->obst.hitbox.x = p_ob->obst.obstacle.x + 30;
+    p_ob->obst.hitbox.x = p_ob->obst.obstacle.x + 40;
     p_ob->obst.hitbox.w = HITBOX_LEN;
     p_ob->obst.hitbox.h = HITBOX_LEN;
     p_ob->obst.type = type;
@@ -30,6 +30,7 @@ void Create_Obstacle(int lane, int type)
     case OBST_WALL:
         obst_surf = IMG_Load("res/image/obstacle_3.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y;
+        p_ob->obst.hitbox.y = SQR_LEN;
         break;
     case OBST_COIN:
         obst_surf = IMG_Load("res/image/coin_1.png");
@@ -77,21 +78,30 @@ void Obstacle_Motion()
         if (app.character.lane == p_ob->obst.lane && Collition_Detect(p_ob->obst.hitbox))
         {
             Collition_Event(p_ob->obst.type);
-            if (prev)
+            if (app.character.death == 0)
             {
-                prev->next = p_ob->next;
+                if (prev)
+                {
+                    prev->next = p_ob->next;
+                }
+                else
+                {
+                    app.runway.head = app.runway.head->next;
+                    if (app.runway.head == NULL)
+                    {
+                        app.runway.tail = NULL;
+                    }
+                }
+                obstacle_node *temp = p_ob;
+                p_ob = p_ob->next;
+                Delete_Obstacle(temp);
             }
             else
             {
-                app.runway.head = app.runway.head->next;
-                if (app.runway.head == NULL)
-                {
-                    app.runway.tail = NULL;
-                }
+                SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
+                prev = p_ob;
+                p_ob = p_ob->next;
             }
-            obstacle_node *temp = p_ob;
-            p_ob = p_ob->next;
-            Delete_Obstacle(temp);
         }
         else
         {
@@ -104,7 +114,10 @@ void Obstacle_Motion()
 
 int Collition_Detect(SDL_Rect hitbox)
 {
-    if (SDL_HasIntersection(&hitbox, &app.character.character))
+    SDL_Rect hitbox_character[3] = {{0, 0, 100, 100}, {0, 0, 100, 100}, {25, 75, 25, 25}};
+    hitbox_character[app.character.mode].x += app.character.character.x;
+    hitbox_character[app.character.mode].y += app.character.character.y;
+    if (SDL_HasIntersection(&hitbox, &hitbox_character[app.character.mode]))
     {
         return 1;
     }
