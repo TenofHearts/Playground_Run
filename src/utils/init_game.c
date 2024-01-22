@@ -47,7 +47,7 @@ void Init_Window()
     app.win_rect.y = 0;
     app.win_rect.h = WIN_H;
     app.win_rect.w = WIN_W;
-    app.score_board.x = 0;
+    app.score_board.x = 100;
     app.score_board.y = 0;
     app.score_board.w = SCORE_BOARD_W;
     app.score_board.h = SCORE_BOARD_H;

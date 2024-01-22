@@ -10,7 +10,7 @@ void Score_Update()
 #ifndef DISPLAY_TIME_
     const SDL_Color fg_w = {255, 255, 255, 255};
     char score_stored[10] = {0};
-    Print_Text(app.score_board, fg_w, "Score:", 50);
+    Print_Text(Score_rect, fg_w, "Score:", 50);
     sprintf(score_stored, "%d", app.score);
     app.score_board.w = 20 * strlen(score_stored);
     Print_Text(app.score_board, fg_w, score_stored, 50);
