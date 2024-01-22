@@ -1,13 +1,13 @@
-add_executable(${PROJECT_NAME}
-    main.c
-    start_menu.c
-    stop_menu.c
-    death_menu.c
-    game.c
-    obstacle.c
-    utils/print_text.c
-    utils/character_motion.c
-    utils/score.c
-    utils/init_game.c
-    utils/time.c
-)
+# add_executable(${PROJECT_NAME}
+#     main.c
+#     start_menu.c
+#     stop_menu.c
+#     death_menu.c
+#     game.c
+#     obstacle.c
+#     utils/print_text.c
+#     utils/character_motion.c
+#     utils/score.c
+#     utils/init_game.c
+#     utils/time.c
+# )
