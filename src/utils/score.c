@@ -20,17 +20,17 @@ void Score_Handle()
     {
         stage = 0;
     }
-    if (stage <= 0 && app.score > 20)
+    if (stage <= 0 && app.score > 100)
     {
         stage = 1;
         app.speed = 7;
     }
-    if (stage <= 1 && app.score > 100)
+    if (stage <= 1 && app.score > 250)
     {
         stage = 2;
         app.speed = 10;
     }
-    if (stage <= 2 && app.score > 150)
+    if (stage <= 2 && app.score > 500)
     {
         stage = 3;
         app.speed = 15;

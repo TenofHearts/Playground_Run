@@ -134,7 +134,7 @@ void Collition_Event(int type)
         }
         break;
     case OBST_COIN:
-        app.score++;
+        app.score += 20;
         break;
     case OBST_SHIELD:
         app.score += 5;

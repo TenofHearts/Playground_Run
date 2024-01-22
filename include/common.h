@@ -53,7 +53,7 @@
 #define UP 82
 #define LEFT 80
 #define DOWN 81
-#define RIGHT 70
+#define RIGHT 79
 
 #define FR 50
 #define FT (1000 / FR)

@@ -42,8 +42,8 @@ void Background_Motion()
 void Motion()
 {
     Background_Motion();
-    Character_Motion();
     Obstacle_Motion();
+    Character_Motion();
     Score_Update();
     Display_Frame();
     Deal_Invincible();
@@ -117,6 +117,7 @@ void Game()
         if (steps >= SQR_LEN)
         {
             Obstacle_Generate();
+            app.score++;
             steps = 0;
         }
         Motion();
