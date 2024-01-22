@@ -31,8 +31,6 @@ src/utils/time.c
 src/utils/motion.c
 )
 
-set_target_properties(playground_run PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 target_link_libraries(${PROJECT_NAME}
     mingw32
     SDL2main
