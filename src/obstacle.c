@@ -181,7 +181,7 @@ void Deal_Invincible()
         }
         else
         {
-            SDL_Rect img = {0, 410, 20, 20};
+            SDL_Rect img = {0, 410, 40, 40};
             SDL_RenderCopy(app.rdr, app.character.invincible_icon_texture, NULL, &img);
         }
     }
