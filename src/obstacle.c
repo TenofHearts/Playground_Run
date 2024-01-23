@@ -2,6 +2,8 @@
 
 extern int lane_y[3];
 
+SDL_Rect fog_rect = {WIN_W, 0, WIN_H, WIN_H};
+
 void Create_Obstacle(int lane, int type)
 {
     obstacle_node *p_ob = (obstacle_node *)malloc(sizeof(obstacle_node));
@@ -16,38 +18,32 @@ void Create_Obstacle(int lane, int type)
     p_ob->obst.hitbox.h = HITBOX_LEN;
     p_ob->obst.type = type;
     p_ob->obst.lane = lane;
-    SDL_Surface *obst_surf = NULL;
+    p_ob->obst.texture = app.obstacle_texture[type];
     switch (type)
     {
     case OBST_JUMP:
-        obst_surf = IMG_Load("res/image/obstacle_1.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
         break;
     case OBST_DUCK:
-        obst_surf = IMG_Load("res/image/obstacle_2.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y;
         break;
     case OBST_WALL:
-        obst_surf = IMG_Load("res/image/obstacle_3.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y;
         p_ob->obst.hitbox.h = SQR_LEN;
         break;
     case OBST_COIN:
-        obst_surf = IMG_Load("res/image/coin_1.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
         break;
     case OBST_SHIELD:
-        obst_surf = IMG_Load("res/image/shield_1.png");
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
+        break;
+    case OBST_FOG:
+        p_ob->obst.hitbox.y = p_ob->obst.obstacle.y;
+        p_ob->obst.hitbox.h = SQR_LEN;
         break;
     default:
         break;
     }
-    if (obst_surf == NULL)
-    {
-        HANDLE_ERROR("IMG_Load");
-    }
-    p_ob->obst.texture = SDL_CreateTextureFromSurface(app.rdr, obst_surf);
     if (app.runway.head == NULL)
     {
         app.runway.head = p_ob;
@@ -58,8 +54,6 @@ void Create_Obstacle(int lane, int type)
         app.runway.tail->next = p_ob;
         app.runway.tail = p_ob;
     }
-    SDL_FreeSurface(obst_surf);
-    // SDL_Log("Create_Obstacle Success!\n");
 }
 
 void Obstacle_Motion()
@@ -155,6 +149,11 @@ void Collition_Event(int type)
         app.time.invincible_time = SDL_GetTicks64();
         app.character.invincible = 1;
         break;
+    case OBST_FOG:
+        app.score -= 10;
+        app.character.fog = 1;
+        app.time.fog_time = SDL_GetTicks64();
+        break;
     default:
         break;
     }
@@ -171,7 +170,6 @@ void Delete_Obstacle(obstacle_node *obstacle)
     {
         obstacle->next = NULL;
     }
-    SDL_DestroyTexture(obstacle->obst.texture);
     free(obstacle);
 }
 void Delete_Runway()
@@ -200,6 +198,38 @@ void Deal_Invincible()
         }
     }
 }
+void Deal_Fogtrap()
+{
+    if (app.character.fog)
+    {
+        Uint32 temp = SDL_GetTicks64() - app.time.fog_time;
+        if (temp >= FOG_TIME)
+        {
+            app.character.fog = 0;
+            fog_rect.x = WIN_W;
+        }
+        else if (temp >= 6500)
+        {
+            fog_rect.x = FOG_X + (temp - 6500) * (WIN_W - FOG_X) / 500;
+            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+        }
+        else if (temp >= 500)
+        {
+            fog_rect.x = FOG_X;
+            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+        }
+        else if (fog_rect.x <= FOG_X)
+        {
+            fog_rect.x = FOG_X;
+            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+        }
+        else
+        {
+            fog_rect.x = FOG_X + (500 - temp) * (WIN_W - FOG_X) / 500;
+            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+        }
+    }
+}
 
 void Obstacle_Generate()
 { /**/
@@ -208,7 +238,7 @@ void Obstacle_Generate()
     if (generate_coefficient <= 2)
     {
         lane_coefficient = rand() % 3;
-        type_coefficient = rand() % OBST_NUM;
+        type_coefficient = rand() % (OBST_NUM - 1);
         if (type_coefficient == app.runway.prev_type)
         {
             type_coefficient = (type_coefficient + 2) % OBST_NUM;
@@ -216,10 +246,18 @@ void Obstacle_Generate()
         }
         else if (type_coefficient == OBST_SHIELD)
         {
-            type_coefficient = rand() % OBST_NUM;
-            if (type_coefficient == OBST_SHIELD)
+            type_coefficient = rand() % 10;
+            if (type_coefficient >= 8)
             {
                 Create_Obstacle(lane_coefficient, OBST_SHIELD);
+            }
+            else if (type_coefficient <= 1)
+            {
+                Create_Obstacle(lane_coefficient, OBST_FOG);
+            }
+            else
+            {
+                Create_Obstacle(lane_coefficient, OBST_COIN);
             }
         }
         else
@@ -227,5 +265,4 @@ void Obstacle_Generate()
             Create_Obstacle(lane_coefficient, type_coefficient);
         }
     }
-    // Create_Obstacle(1, OBST_SHIELD);
 }

@@ -15,6 +15,10 @@
 #include "utils/init_game.h"
 #include "utils/time.h"
 
+#ifndef WINDOWS_APPLICATION
+#define WINDOWS_APPLICATION
+#endif
+
 #ifdef WINDOWS_APPLICATION
 #pragma comment(linker, "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
 #endif
@@ -30,6 +34,7 @@
 #define SQR_LEN 100
 #define HITBOX_LEN 25
 #define CHARACTER_START 30
+#define FOG_X 500
 
 #define LANE_ONE_Y 60
 #define LANE_TWO_Y 175
@@ -63,15 +68,17 @@
 #define OBST_WALL 2
 #define OBST_COIN 3
 #define OBST_SHIELD 4
-#define OBST_NUM 5
+#define OBST_FOG 5
+#define OBST_NUM 6
 
 #define INVINCIBLE_TIME 5000
+#define FOG_TIME 7000
 
 typedef struct
 {
-    int mode, speed_y, acceleration_y, lane, invincible, death;
+    int mode, speed_y, acceleration_y, lane, invincible, death, fog;
     SDL_Rect character;
-    SDL_Texture *texture, *invincible_icon_texture;
+    SDL_Texture *texture, *invincible_icon_texture, *fog_texture;
 } character;
 
 typedef struct
@@ -97,7 +104,7 @@ typedef struct
 
 typedef struct
 {
-    Uint32 duck_time, frame_time, invincible_time;
+    Uint32 duck_time, frame_time, invincible_time, fog_time;
 } Time;
 
 typedef struct
@@ -112,6 +119,7 @@ typedef struct
     SDL_Texture *background_texture;
     int score;
     Time time;
+    SDL_Texture **obstacle_texture;
 } App;
 
 extern App app;

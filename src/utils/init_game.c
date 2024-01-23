@@ -12,31 +12,12 @@ void Init_Game()
     app.character.character.h = SQR_LEN;
     app.character.invincible = 0;
     app.character.death = 0;
+    app.character.fog = 0;
     app.speed = 5;
     app.runway.head = NULL;
     app.runway.tail = NULL;
-    SDL_Surface *character_surf = IMG_Load("res/image/character_1.png");
-    if (character_surf == NULL)
-    {
-        HANDLE_ERROR("IMG_Load");
-    }
-    app.character.texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
-    if (app.character.texture == NULL)
-    {
-        HANDLE_ERROR("SDL_CreateTextureFromSurface");
-    }
-    SDL_Surface *invincible_icon_surf = IMG_Load("res/image/shield_1.png");
-    if (invincible_icon_surf == NULL)
-    {
-        HANDLE_ERROR("IMG_Load");
-    }
-    app.character.invincible_icon_texture = SDL_CreateTextureFromSurface(app.rdr, invincible_icon_surf);
-    if (app.character.invincible_icon_texture == NULL)
-    {
-        HANDLE_ERROR("SDL_CreateTextureFromSurface");
-    }
-    SDL_FreeSurface(character_surf);
-    SDL_FreeSurface(invincible_icon_surf);
+    app.obstacle_texture = (SDL_Texture **)malloc(OBST_NUM * sizeof(SDL_Texture *));
+    Init_Texture();
     app.score = 0;
     app.runway.prev_type = OBST_NUM;
 }
@@ -63,4 +44,133 @@ void Init_Window()
     }
     SDL_FreeSurface(jpg_surf);
     srand(time(NULL));
+}
+
+void Destroy_Texture()
+{
+    if (app.background_texture)
+    {
+        SDL_DestroyTexture(app.background_texture);
+    }
+    if (app.character.texture)
+    {
+        SDL_DestroyTexture(app.character.texture);
+    }
+    if (app.character.invincible_icon_texture)
+    {
+        SDL_DestroyTexture(app.character.invincible_icon_texture);
+    }
+    if (app.character.fog_texture)
+    {
+        SDL_DestroyTexture(app.character.fog_texture);
+    }
+    for (int i = 0; i < OBST_NUM; i++)
+    {
+        if (app.obstacle_texture[i])
+        {
+            SDL_DestroyTexture(app.obstacle_texture[i]);
+        }
+    }
+}
+void Init_Texture()
+{
+    SDL_Surface *character_surf = IMG_Load("res/image/character_1.png");
+    if (character_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.character.texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
+    if (app.character.texture == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *invincible_icon_surf = IMG_Load("res/image/shield_1.png");
+    if (invincible_icon_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.character.invincible_icon_texture = SDL_CreateTextureFromSurface(app.rdr, invincible_icon_surf);
+    if (app.character.invincible_icon_texture == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *fog_surf = IMG_Load("res/image/fog_1.png");
+    if (fog_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.character.fog_texture = SDL_CreateTextureFromSurface(app.rdr, fog_surf);
+    if (app.character.fog_texture == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *jump_surf = IMG_Load("res/image/obstacle_1.png");
+    if (jump_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_JUMP] = SDL_CreateTextureFromSurface(app.rdr, jump_surf);
+    if (app.obstacle_texture[OBST_JUMP] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *duck_surf = IMG_Load("res/image/obstacle_2.png");
+    if (duck_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_DUCK] = SDL_CreateTextureFromSurface(app.rdr, duck_surf);
+    if (app.obstacle_texture[OBST_DUCK] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *wall_surf = IMG_Load("res/image/obstacle_3.png");
+    if (wall_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_WALL] = SDL_CreateTextureFromSurface(app.rdr, wall_surf);
+    if (app.obstacle_texture[OBST_WALL] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *coin_surf = IMG_Load("res/image/coin_1.png");
+    if (coin_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_COIN] = SDL_CreateTextureFromSurface(app.rdr, coin_surf);
+    if (app.obstacle_texture[OBST_COIN] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *shield_surf = IMG_Load("res/image/shield_1.png");
+    if (shield_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_SHIELD] = SDL_CreateTextureFromSurface(app.rdr, shield_surf);
+    if (app.obstacle_texture[OBST_SHIELD] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *fogtrap_surf = IMG_Load("res/image/fogtrap_1.png");
+    if (fogtrap_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_FOG] = SDL_CreateTextureFromSurface(app.rdr, fogtrap_surf);
+    if (app.obstacle_texture[OBST_FOG] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_FreeSurface(fogtrap_surf);
+    SDL_FreeSurface(shield_surf);
+    SDL_FreeSurface(coin_surf);
+    SDL_FreeSurface(wall_surf);
+    SDL_FreeSurface(duck_surf);
+    SDL_FreeSurface(jump_surf);
+    SDL_FreeSurface(fog_surf);
+    SDL_FreeSurface(character_surf);
+    SDL_FreeSurface(invincible_icon_surf);
 }

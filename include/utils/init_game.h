@@ -5,5 +5,7 @@
 
 void Init_Game();
 void Init_Window();
+void Destroy_Texture();
+void Init_Texture();
 
 #endif

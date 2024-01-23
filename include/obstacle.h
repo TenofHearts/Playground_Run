@@ -12,5 +12,6 @@ void Collition_Event(int type);
 void Delete_Runway(void);
 void Deal_Invincible(void);
 void Obstacle_Generate(void);
+void Deal_Fogtrap(void);
 
 #endif

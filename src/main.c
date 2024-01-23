@@ -41,21 +41,6 @@ static void Init(void)
     }
     Init_Window();
 }
-void Destroy_Texture()
-{
-    if (app.background_texture)
-    {
-        SDL_DestroyTexture(app.background_texture);
-    }
-    if (app.character.texture)
-    {
-        SDL_DestroyTexture(app.character.texture);
-    }
-    if (app.character.invincible_icon_texture)
-    {
-        SDL_DestroyTexture(app.character.invincible_icon_texture);
-    }
-}
 static void Quit(void)
 {
     SDL_Quit();
@@ -64,5 +49,6 @@ static void Quit(void)
     IMG_Quit();
     TTF_Quit();
     Destroy_Texture();
+    free(app.obstacle_texture);
     SDL_Log("Exit Success\n"); // for testing purposes only
 }

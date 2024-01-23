@@ -14,5 +14,6 @@ void Motion()
     Score_Update();
     Display_Frame();
     Deal_Invincible();
+    Deal_Fogtrap();
     SDL_RenderPresent(app.rdr);
 }
