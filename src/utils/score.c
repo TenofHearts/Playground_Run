@@ -19,37 +19,72 @@ void Score_Update()
 
 void Score_Handle()
 {
-    if (app.score <= 100 && stage > 0)
+    if (app.baby_mode)
     {
-        stage = 0;
+        if (app.score <= 100 && stage > 0)
+        {
+            stage = 0;
+        }
+        if (stage <= 0 && app.score > 100)
+        {
+            stage = 1;
+            app.speed++;
+        }
+        if (stage <= 1 && app.score > 250)
+        {
+            stage = 2;
+            app.speed++;
+        }
+        if (stage <= 2 && app.score > 500)
+        {
+            stage = 3;
+            app.speed++;
+        }
+        if (stage <= 4 && app.score > 1000)
+        {
+            stage = 4;
+            app.speed += 2;
+        }
+        if (stage <= 5 && app.score > 2000)
+        {
+            stage = 6;
+            app.speed += 2;
+        }
     }
-    if (stage <= 0 && app.score > 100)
+    else
     {
-        stage = 1;
-        app.speed = 7;
-    }
-    if (stage <= 1 && app.score > 250)
-    {
-        stage = 2;
-        app.speed = 9;
-    }
-    if (stage <= 2 && app.score > 500)
-    {
-        stage = 3;
-        app.speed = 12;
-    }
-    if (stage <= 4 && app.score > 1000)
-    {
-        stage = 4;
-        app.speed = 15;
-    }
-    if (stage <= 5 && app.score > 2000)
-    {
-        stage = 6;
-        app.speed++;
-    }
-    if (stage == 6 && app.speed < 20)
-    {
-        app.speed++;
+        if (app.score <= 100 && stage > 0)
+        {
+            stage = 0;
+        }
+        if (stage <= 0 && app.score > 100)
+        {
+            stage = 1;
+            app.speed = 7;
+        }
+        if (stage <= 1 && app.score > 250)
+        {
+            stage = 2;
+            app.speed = 9;
+        }
+        if (stage <= 2 && app.score > 500)
+        {
+            stage = 3;
+            app.speed = 12;
+        }
+        if (stage <= 4 && app.score > 1000)
+        {
+            stage = 4;
+            app.speed = 15;
+        }
+        if (stage <= 5 && app.score > 2000)
+        {
+            stage = 6;
+            app.speed++;
+        }
+        if (stage == 6 && app.speed < 20)
+        {
+            app.speed++;
+        }
     }
 }

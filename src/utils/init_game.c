@@ -24,6 +24,7 @@ void Init_Game()
 
 void Init_Window()
 {
+    app.baby_mode = 0;
     app.win_rect.x = 1750;
     app.win_rect.y = 0;
     app.win_rect.h = WIN_H;

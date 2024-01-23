@@ -16,6 +16,9 @@ void Delay(int ms)
                 case ESC:
                     exit(0);
                     break;
+                case B:
+                    app.baby_mode = (app.baby_mode + 1) % 2;
+                    break;
                 default:
                     break;
                 }
@@ -114,6 +117,9 @@ void Game()
                     break;
                 case DOWN:
                     Character_Duck();
+                    break;
+                case B:
+                    app.baby_mode = (app.baby_mode + 1) % 2;
                     break;
                 /*For testing purposes only*/
                 case T:

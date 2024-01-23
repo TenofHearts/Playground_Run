@@ -106,6 +106,20 @@ void Start()
                     SDL_RenderPresent(app.rdr);
                 }
                 break;
+            case SDL_KEYDOWN:
+                SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
+                switch (event.key.keysym.scancode)
+                {
+                case ESC:
+                    exit(0);
+                    break;
+                case B:
+                    app.baby_mode = (app.baby_mode + 1) % 2;
+                    break;
+                default:
+                    break;
+                }
+                break;
             default:
                 break;
             }

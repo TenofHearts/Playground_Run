@@ -55,6 +55,7 @@
 #define S 22
 #define D 7
 #define T 23
+#define B 5
 #define UP 82
 #define LEFT 80
 #define DOWN 81
@@ -120,6 +121,7 @@ typedef struct
     int score;
     Time time;
     SDL_Texture **obstacle_texture;
+    int baby_mode;
 } App;
 
 extern App app;
