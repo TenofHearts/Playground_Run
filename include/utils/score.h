@@ -4,6 +4,7 @@
 #include "common.h"
 
 void Score_Update();
-void Score_Handle();
+void Score_Handle(int mode);
+void Baby_Mode();
 
 #endif

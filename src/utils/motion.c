@@ -12,6 +12,7 @@ void Motion()
     Obstacle_Motion();
     Character_Motion();
     Score_Update();
+    Baby_Mode();
     Display_Frame();
     Deal_Invincible();
     Deal_Fogtrap();

@@ -6,7 +6,7 @@ SDL_Rect Score_rect = {0, 0, SCORE_BOARD_W, SCORE_BOARD_H};
 
 void Score_Update()
 {
-    Score_Handle();
+    Score_Handle(0);
 #ifndef DISPLAY_TIME_
     const SDL_Color fg_w = {255, 255, 255, 255};
     char score_stored[10] = {0};
@@ -17,8 +17,12 @@ void Score_Update()
 #endif
 }
 
-void Score_Handle()
+void Score_Handle(int mode)
 {
+    if (mode)
+    {
+        stage = 0;
+    }
     if (app.baby_mode)
     {
         if (app.score <= 100 && stage > 0)
@@ -86,5 +90,15 @@ void Score_Handle()
         {
             app.speed++;
         }
+    }
+}
+
+void Baby_Mode()
+{
+    SDL_Rect baby_mode = {730, 410, SCORE_BOARD_W, SCORE_BOARD_H};
+    SDL_Color fg_w = {255, 255, 255, 255};
+    if (app.baby_mode)
+    {
+        Print_Text(baby_mode, fg_w, "Baby Mode", 30);
     }
 }

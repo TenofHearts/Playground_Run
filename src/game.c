@@ -120,6 +120,7 @@ void Game()
                     break;
                 case B:
                     app.baby_mode = (app.baby_mode + 1) % 2;
+                    Score_Handle(1);
                     break;
                 /*For testing purposes only*/
                 case T:
