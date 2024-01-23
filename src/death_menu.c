@@ -84,6 +84,19 @@ void Death_Menu()
                     exit(0);
                 }
                 break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.scancode)
+                {
+                case ESC:
+                    exit(0);
+                    break;
+                case B:
+                    app.baby_mode = (app.baby_mode + 1) % 2;
+                    break;
+                default:
+                    break;
+                }
+                break;
             default:
                 break;
             }
