@@ -28,27 +28,27 @@ void Score_Handle()
         if (stage <= 0 && app.score > 100)
         {
             stage = 1;
-            app.speed++;
+            app.speed = 6;
         }
         if (stage <= 1 && app.score > 250)
         {
             stage = 2;
-            app.speed++;
+            app.speed = 7;
         }
         if (stage <= 2 && app.score > 500)
         {
             stage = 3;
-            app.speed++;
+            app.speed = 8;
         }
         if (stage <= 4 && app.score > 1000)
         {
             stage = 4;
-            app.speed += 2;
+            app.speed = 10;
         }
         if (stage <= 5 && app.score > 2000)
         {
             stage = 6;
-            app.speed += 2;
+            app.speed = 12;
         }
     }
     else
