@@ -22,9 +22,8 @@ void Character_Motion(void)
     {
         HANDLE_ERROR("IMG_Load");
     }
-    SDL_Texture *temp_texture = app.character.texture;
+    SDL_DestroyTexture(app.character.texture);
     app.character.texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
-    SDL_DestroyTexture(temp_texture);
     if (app.character.texture == NULL)
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
