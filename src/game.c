@@ -71,6 +71,8 @@ void Game()
 {
     Init_Game();
     Transition_Animation_2();
+    Restart_Audio();
+    Play_BGM();
     SDL_Event event;
     int steps = 0;
     while (1)

@@ -44,6 +44,7 @@ void Init_Window()
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
     SDL_FreeSurface(jpg_surf);
+    Init_Audio();
     srand(time(NULL));
 }
 

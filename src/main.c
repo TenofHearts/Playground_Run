@@ -49,6 +49,7 @@ static void Quit(void)
     IMG_Quit();
     TTF_Quit();
     Destroy_Texture();
+    Deinit_Audio();
     free(app.obstacle_texture);
     SDL_Log("Exit Success\n"); // for testing purposes only
 }

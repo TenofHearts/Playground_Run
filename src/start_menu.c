@@ -75,6 +75,7 @@ void Start()
                 {
                     Print_Text(start_button, fg_b, "Start", 50);
                     Transition_Animation_1();
+                    Pause_BGM();
                     return;
                 }
                 else if (SDL_PointInRect(&pt, &exit_button))
@@ -123,6 +124,7 @@ void Start()
             default:
                 break;
             }
+            Play_BGM();
         }
     }
 }

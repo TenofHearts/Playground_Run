@@ -14,6 +14,7 @@
 #include "utils/score.h"
 #include "utils/init_game.h"
 #include "utils/time.h"
+#include "utils/audio.h"
 
 #ifndef WINDOWS_APPLICATION
 #define WINDOWS_APPLICATION
@@ -110,6 +111,14 @@ typedef struct
 
 typedef struct
 {
+    Uint8 *audio_buf;
+    Uint32 audio_len;
+    SDL_AudioDeviceID device_id;
+    SDL_AudioSpec audio_spec;
+} audio;
+
+typedef struct
+{
     SDL_Window *window;
     SDL_Renderer *rdr;
     character character;
@@ -122,6 +131,7 @@ typedef struct
     Time time;
     SDL_Texture **obstacle_texture;
     int baby_mode;
+    audio audio;
 } App;
 
 extern App app;
