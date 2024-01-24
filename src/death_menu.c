@@ -16,8 +16,8 @@ void Transition_Animation_4()
 
 void Death_Menu()
 {
-    Transition_Animation_4();
     Pause_BGM();
+    Transition_Animation_4();
     Restart_Audio();
     Delete_Runway();
     SDL_Rect text = {265, 50, 300, 80}, restart_button = {328, 200, 174, 50}, exit_button = {365, 275, 100, 50};
@@ -76,6 +76,7 @@ void Death_Menu()
                 {
                     Print_Text(restart_button, fg_w, "Restart", 50);
                     SDL_RenderPresent(app.rdr);
+                    Play_Coin_Soundeffect();
                     SDL_RenderClear(app.rdr);
                     return;
                 }

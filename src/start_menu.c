@@ -74,8 +74,9 @@ void Start()
                 if (SDL_PointInRect(&pt, &start_button))
                 {
                     Print_Text(start_button, fg_b, "Start", 50);
-                    Transition_Animation_1();
                     Pause_BGM();
+                    Play_Coin_Soundeffect();
+                    Transition_Animation_1();
                     return;
                 }
                 else if (SDL_PointInRect(&pt, &exit_button))

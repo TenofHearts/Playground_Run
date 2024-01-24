@@ -85,6 +85,7 @@ void Character_Jump()
 {
     if (app.character.mode != CHARACTER_MODE_JUMP)
     {
+        Play_Jump_Soundeffect();
         app.character.mode = CHARACTER_MODE_JUMP;
         app.character.speed_y = 20;
     }

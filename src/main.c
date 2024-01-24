@@ -39,7 +39,12 @@ static void Init(void)
     {
         HANDLE_ERROR("TTF_Init");
     }
+    if (Mix_Init(MIX_INIT_MP3) == 0)
+    {
+        HANDLE_ERROR("MIX_Init");
+    }
     Init_Window();
+    Init_Audio();
 }
 static void Quit(void)
 {
@@ -48,6 +53,7 @@ static void Quit(void)
     SDL_DestroyRenderer(app.rdr);
     IMG_Quit();
     TTF_Quit();
+    Mix_Quit();
     Destroy_Texture();
     Deinit_Audio();
     free(app.obstacle_texture);

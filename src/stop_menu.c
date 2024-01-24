@@ -15,8 +15,9 @@ void Transition_Animation_3()
 
 void Stop_Menu()
 {
-    Transition_Animation_3();
     Pause_BGM();
+    Play_Coin_Soundeffect();
+    Transition_Animation_3();
     SDL_Rect pause = {315, 50, 200, 80}, continue_button = {315, 200, 200, 50}, exit_button = {365, 275, 100, 50};
     SDL_Color fg_b = {0, 0, 0, 255}, fg_lg = {100, 100, 100, 255}, fg_g = {200, 200, 200, 255};
     Print_Text(pause, fg_b, "Pause", 72);
@@ -73,6 +74,7 @@ void Stop_Menu()
                 {
                     Print_Text(continue_button, fg_b, "Continue", 50);
                     SDL_RenderPresent(app.rdr);
+                    Play_Coin_Soundeffect();
                     Play_BGM();
                     return;
                 }

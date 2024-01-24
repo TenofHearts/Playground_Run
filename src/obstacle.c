@@ -142,6 +142,7 @@ void Collition_Event(int type)
         }
         break;
     case OBST_COIN:
+        Play_Coin_Soundeffect();
         app.score += 20;
         break;
     case OBST_SHIELD:

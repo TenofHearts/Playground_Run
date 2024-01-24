@@ -9,6 +9,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "utils/print_text.h"
 #include "utils/character_motion.h"
 #include "utils/score.h"
@@ -111,14 +112,6 @@ typedef struct
 
 typedef struct
 {
-    Uint8 *audio_buf;
-    Uint32 audio_len;
-    SDL_AudioDeviceID device_id;
-    SDL_AudioSpec audio_spec;
-} audio;
-
-typedef struct
-{
     SDL_Window *window;
     SDL_Renderer *rdr;
     character character;
@@ -131,7 +124,6 @@ typedef struct
     Time time;
     SDL_Texture **obstacle_texture;
     int baby_mode;
-    audio audio;
 } App;
 
 extern App app;
