@@ -74,7 +74,6 @@
 #define OBST_FOG 5
 #define OBST_NUM 6
 
-#define INVINCIBLE_TIME 5000
 #define FOG_TIME 7000
 
 typedef struct
@@ -107,7 +106,7 @@ typedef struct
 
 typedef struct
 {
-    Uint32 duck_time, frame_time, invincible_time, fog_time;
+    Uint32 duck_time, frame_time, fog_time;
 } Time;
 
 typedef struct

@@ -128,17 +128,29 @@ void Collition_Event(int type)
         {
             app.character.death = 1;
         }
+        else if (app.character.invincible > 0)
+        {
+            app.character.invincible--;
+        }
         break;
     case OBST_DUCK:
         if (app.character.mode != CHARACTER_MODE_DUCK && app.character.invincible == 0)
         {
             app.character.death = 1;
         }
+        else if (app.character.invincible > 0)
+        {
+            app.character.invincible--;
+        }
         break;
     case OBST_WALL:
         if (app.character.invincible == 0)
         {
             app.character.death = 1;
+        }
+        else if (app.character.invincible > 0)
+        {
+            app.character.invincible--;
         }
         break;
     case OBST_COIN:
@@ -147,8 +159,7 @@ void Collition_Event(int type)
         break;
     case OBST_SHIELD:
         app.score += 5;
-        app.time.invincible_time = SDL_GetTicks64();
-        app.character.invincible = 1;
+        app.character.invincible++;
         break;
     case OBST_FOG:
         app.score -= 10;
@@ -188,15 +199,16 @@ void Deal_Invincible()
 {
     if (app.character.invincible)
     {
-        if (SDL_GetTicks64() - app.time.invincible_time >= INVINCIBLE_TIME)
-        {
-            app.character.invincible = 0;
-        }
-        else
-        {
-            SDL_Rect img = {0, 410, 40, 40};
-            SDL_RenderCopy(app.rdr, app.character.invincible_icon_texture, NULL, &img);
-        }
+        SDL_Rect img = {0, 410, 40, 40};
+        SDL_Color fg_w = {255, 255, 255, 255};
+        SDL_RenderCopy(app.rdr, app.character.invincible_icon_texture, NULL, &img);
+        char invincible[4] = {0};
+        sprintf(invincible, "%d", app.character.invincible);
+        img.x = 10;
+        img.y = 420;
+        img.h = 20;
+        img.w = 10 * strlen(invincible);
+        Print_Text(img, fg_w, invincible, 20);
     }
 }
 void Deal_Fogtrap()
