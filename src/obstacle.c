@@ -141,6 +141,10 @@ void Obstacle_Motion()
                     }
                     obstacle_node *temp = p_ob;
                     p_ob = p_ob->next;
+                    if (p_ob == NULL)
+                    {
+                        app.runway.tail = prev;
+                    }
                     Delete_Obstacle(temp);
                 }
                 else
@@ -363,6 +367,10 @@ void Football_Collition(obstacle_node *football)
             prev->next = p_ob->next;
             Delete_Obstacle(p_ob);
             p_ob = prev->next;
+            if (p_ob == NULL)
+            {
+                app.runway.tail = prev;
+            }
         }
         else
         {
