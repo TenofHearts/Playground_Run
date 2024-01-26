@@ -64,16 +64,28 @@ void Create_Obstacle(int lane, int type)
 
 void Obstacle_Motion()
 {
-    while (app.runway.head && app.runway.head->obst.obstacle.x <= -SQR_LEN)
-    {
-        obstacle_node *temp = app.runway.head;
-        app.runway.head = app.runway.head->next;
-        Delete_Obstacle(temp);
-    }
     obstacle_node *p_ob = app.runway.head, *prev = NULL;
     while (p_ob)
     {
-        if (p_ob->obst.type == MOVING_FOOTBALL)
+        if (p_ob->obst.obstacle.x <= -SQR_LEN)
+        {
+            obstacle_node *temp = p_ob;
+            p_ob = p_ob->next;
+            if (prev)
+            {
+                prev->next = p_ob;
+            }
+            else
+            {
+                app.runway.head = p_ob;
+            }
+            if (p_ob == NULL)
+            {
+                app.runway.tail = NULL;
+            }
+            Delete_Obstacle(temp);
+        }
+        else if (p_ob->obst.type == MOVING_FOOTBALL)
         {
             p_ob->obst.obstacle.x += 10;
             p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
@@ -87,16 +99,12 @@ void Obstacle_Motion()
                 else
                 {
                     app.runway.head = app.runway.head->next;
-                    if (app.runway.head == NULL)
-                    {
-                        app.runway.tail = NULL;
-                    }
                 }
                 obstacle_node *temp = p_ob;
                 p_ob = p_ob->next;
-                if (prev)
+                if (p_ob == NULL)
                 {
-                    prev->next = p_ob;
+                    app.runway.tail = prev;
                 }
                 Delete_Obstacle(temp);
             }
@@ -134,10 +142,6 @@ void Obstacle_Motion()
                     else
                     {
                         app.runway.head = app.runway.head->next;
-                        if (app.runway.head == NULL)
-                        {
-                            app.runway.tail = NULL;
-                        }
                     }
                     obstacle_node *temp = p_ob;
                     p_ob = p_ob->next;
