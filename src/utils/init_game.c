@@ -13,10 +13,10 @@ void Init_Game()
     app.character.invincible = 0;
     app.character.death = 0;
     app.character.fog = 0;
+    app.character.magnet = 0;
     app.speed = 5;
     app.runway.head = NULL;
     app.runway.tail = NULL;
-    app.obstacle_texture = (SDL_Texture **)malloc(OBST_NUM * sizeof(SDL_Texture *));
     app.score = 0;
     app.runway.prev_type = OBST_NUM;
 }
@@ -44,6 +44,7 @@ void Init_Window()
     }
     SDL_FreeSurface(jpg_surf);
     Init_Audio();
+    app.obstacle_texture = (SDL_Texture **)malloc(OBST_NUM * sizeof(SDL_Texture *));
     Init_Texture();
     srand(time(NULL));
 }
@@ -57,10 +58,6 @@ void Destroy_Texture()
     if (app.character.texture)
     {
         SDL_DestroyTexture(app.character.texture);
-    }
-    if (app.character.invincible_icon_texture)
-    {
-        SDL_DestroyTexture(app.character.invincible_icon_texture);
     }
     if (app.character.fog_texture)
     {
@@ -83,16 +80,6 @@ void Init_Texture()
     }
     app.character.texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
     if (app.character.texture == NULL)
-    {
-        HANDLE_ERROR("SDL_CreateTextureFromSurface");
-    }
-    SDL_Surface *invincible_icon_surf = IMG_Load("res/image/shield_1.png");
-    if (invincible_icon_surf == NULL)
-    {
-        HANDLE_ERROR("IMG_Load");
-    }
-    app.character.invincible_icon_texture = SDL_CreateTextureFromSurface(app.rdr, invincible_icon_surf);
-    if (app.character.invincible_icon_texture == NULL)
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
@@ -166,6 +153,28 @@ void Init_Texture()
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
+    SDL_Surface *football_surf = IMG_Load("res/image/football_1.png");
+    if (football_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_FOOTBALL] = SDL_CreateTextureFromSurface(app.rdr, football_surf);
+    if (app.obstacle_texture[OBST_FOOTBALL] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_Surface *magnet_surf = IMG_Load("res/image/magnet_1.png");
+    if (magnet_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.obstacle_texture[OBST_MAGNET] = SDL_CreateTextureFromSurface(app.rdr, magnet_surf);
+    if (app.obstacle_texture[OBST_MAGNET] == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_FreeSurface(magnet_surf);
+    SDL_FreeSurface(football_surf);
     SDL_FreeSurface(fogtrap_surf);
     SDL_FreeSurface(shield_surf);
     SDL_FreeSurface(coin_surf);
@@ -174,5 +183,4 @@ void Init_Texture()
     SDL_FreeSurface(jump_surf);
     SDL_FreeSurface(fog_surf);
     SDL_FreeSurface(character_surf);
-    SDL_FreeSurface(invincible_icon_surf);
 }

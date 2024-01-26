@@ -17,14 +17,6 @@
 #include "utils/time.h"
 #include "utils/audio.h"
 
-#ifndef WINDOWS_APPLICATION
-#define WINDOWS_APPLICATION
-#endif
-
-#ifdef WINDOWS_APPLICATION
-#pragma comment(linker, "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-#endif
-
 #define HANDLE_ERROR(msg)                         \
     SDL_Log(msg " failed: %s\n", SDL_GetError()); \
     exit(EXIT_FAILURE);
@@ -37,6 +29,7 @@
 #define HITBOX_LEN 25
 #define CHARACTER_START 30
 #define FOG_X 500
+#define MAGNET_X 500
 
 #define LANE_ONE_Y 60
 #define LANE_TWO_Y 175
@@ -72,15 +65,19 @@
 #define OBST_COIN 3
 #define OBST_SHIELD 4
 #define OBST_FOG 5
-#define OBST_NUM 6
+#define OBST_FOOTBALL 6
+#define OBST_MAGNET 7
+#define MOVING_FOOTBALL 1000
+#define OBST_NUM 8
 
 #define FOG_TIME 7000
+#define MAGNET_TIME 7000
 
 typedef struct
 {
-    int mode, speed_y, acceleration_y, lane, invincible, death, fog;
+    int mode, speed_y, acceleration_y, lane, invincible, death, fog, magnet;
     SDL_Rect character;
-    SDL_Texture *texture, *invincible_icon_texture, *fog_texture;
+    SDL_Texture *texture, *fog_texture;
 } character;
 
 typedef struct
@@ -106,7 +103,7 @@ typedef struct
 
 typedef struct
 {
-    Uint32 duck_time, frame_time, fog_time;
+    Uint32 duck_time, frame_time, fog_time, magnet_time;
 } Time;
 
 typedef struct

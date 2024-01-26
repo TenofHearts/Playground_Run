@@ -41,6 +41,12 @@ void Create_Obstacle(int lane, int type)
         p_ob->obst.hitbox.y = p_ob->obst.obstacle.y;
         p_ob->obst.hitbox.h = SQR_LEN;
         break;
+    case OBST_FOOTBALL:
+        p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
+        break;
+    case OBST_MAGNET:
+        p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
+        break;
     default:
         break;
     }
@@ -67,12 +73,12 @@ void Obstacle_Motion()
     obstacle_node *p_ob = app.runway.head, *prev = NULL;
     while (p_ob)
     {
-        p_ob->obst.obstacle.x -= app.speed;
-        p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
-        if (app.character.lane == p_ob->obst.lane && Collition_Detect(p_ob->obst.hitbox))
+        if (p_ob->obst.type == MOVING_FOOTBALL)
         {
-            Collition_Event(p_ob->obst.type);
-            if (app.character.death == 0)
+            p_ob->obst.obstacle.x += 10;
+            p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
+            Football_Collition(p_ob);
+            if (p_ob->obst.obstacle.x >= WIN_W)
             {
                 if (prev)
                 {
@@ -88,6 +94,10 @@ void Obstacle_Motion()
                 }
                 obstacle_node *temp = p_ob;
                 p_ob = p_ob->next;
+                if (prev)
+                {
+                    prev->next = p_ob;
+                }
                 Delete_Obstacle(temp);
             }
             else
@@ -99,9 +109,53 @@ void Obstacle_Motion()
         }
         else
         {
-            SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
-            prev = p_ob;
-            p_ob = p_ob->next;
+            p_ob->obst.obstacle.x -= app.speed;
+            if (app.character.magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= MAGNET_X)
+            {
+                p_ob->obst.obstacle.y += (app.character.character.y - p_ob->obst.obstacle.y) / 3;
+                p_ob->obst.obstacle.x += (app.character.character.x - p_ob->obst.obstacle.x) / 3;
+                p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
+                p_ob->obst.lane = app.character.lane;
+                if (SDL_GetTicks64() - app.time.magnet_time >= MAGNET_TIME)
+                {
+                    app.character.magnet = 0;
+                }
+            }
+            p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
+            if (app.character.lane == p_ob->obst.lane && Collition_Detect(p_ob->obst.hitbox))
+            {
+                Collition_Event(&p_ob->obst.type);
+                if (app.character.death == 0 && p_ob->obst.type != MOVING_FOOTBALL)
+                {
+                    if (prev)
+                    {
+                        prev->next = p_ob->next;
+                    }
+                    else
+                    {
+                        app.runway.head = app.runway.head->next;
+                        if (app.runway.head == NULL)
+                        {
+                            app.runway.tail = NULL;
+                        }
+                    }
+                    obstacle_node *temp = p_ob;
+                    p_ob = p_ob->next;
+                    Delete_Obstacle(temp);
+                }
+                else
+                {
+                    SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
+                    prev = p_ob;
+                    p_ob = p_ob->next;
+                }
+            }
+            else
+            {
+                SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
+                prev = p_ob;
+                p_ob = p_ob->next;
+            }
         }
     }
 }
@@ -118,10 +172,10 @@ int Collition_Detect(SDL_Rect hitbox)
     return 0;
 }
 
-void Collition_Event(int type)
+void Collition_Event(int *type)
 {
 
-    switch (type)
+    switch (*type)
     {
     case OBST_JUMP:
         if (app.character.mode != CHARACTER_MODE_JUMP && app.character.invincible == 0)
@@ -166,6 +220,13 @@ void Collition_Event(int type)
         app.character.fog = 1;
         app.time.fog_time = SDL_GetTicks64();
         break;
+    case OBST_FOOTBALL:
+        *type = MOVING_FOOTBALL;
+        break;
+    case OBST_MAGNET:
+        app.character.magnet = 1;
+        app.time.magnet_time = SDL_GetTicks64();
+        break;
     default:
         break;
     }
@@ -173,7 +234,7 @@ void Collition_Event(int type)
 
 void Delete_Obstacle(obstacle_node *obstacle)
 {
-    SDL_Log("Delete_Obstacle success, type = %d\n", obstacle->obst.type);
+    // SDL_Log("Delete_Obstacle success, type = %d\n", obstacle->obst.type);
     if (obstacle->next == NULL)
     {
         app.runway.tail = NULL;
@@ -195,13 +256,13 @@ void Delete_Runway()
     }
 }
 
-void Deal_Invincible()
+void Deal_Stage()
 {
     if (app.character.invincible)
     {
         SDL_Rect img = {0, 410, 40, 40};
         SDL_Color fg_w = {255, 255, 255, 255};
-        SDL_RenderCopy(app.rdr, app.character.invincible_icon_texture, NULL, &img);
+        SDL_RenderCopy(app.rdr, app.obstacle_texture[OBST_SHIELD], NULL, &img);
         char invincible[4] = {0};
         sprintf(invincible, "%d", app.character.invincible);
         img.x = 10;
@@ -209,6 +270,11 @@ void Deal_Invincible()
         img.h = 20;
         img.w = 10 * strlen(invincible);
         Print_Text(img, fg_w, invincible, 20);
+    }
+    if (app.character.magnet)
+    {
+        SDL_Rect img = {40, 410, 40, 40};
+        SDL_RenderCopy(app.rdr, app.obstacle_texture[OBST_MAGNET], NULL, &img);
     }
 }
 void Deal_Fogtrap()
@@ -251,22 +317,29 @@ void Obstacle_Generate()
     if (generate_coefficient <= 2)
     {
         lane_coefficient = rand() % 3;
-        type_coefficient = rand() % (OBST_NUM - 1);
+        type_coefficient = rand() % 5;
         if (type_coefficient == app.runway.prev_type)
         {
-            type_coefficient = (type_coefficient + 2) % OBST_NUM;
-            Create_Obstacle(lane_coefficient, type_coefficient);
+            type_coefficient = (type_coefficient + 2) % 5;
         }
-        else if (type_coefficient == OBST_SHIELD)
+        if (type_coefficient == OBST_SHIELD)
         {
             type_coefficient = rand() % 10;
-            if (type_coefficient >= 8)
+            if (type_coefficient == 9)
             {
                 Create_Obstacle(lane_coefficient, OBST_SHIELD);
             }
-            else if (type_coefficient <= 1)
+            else if (type_coefficient == 0)
             {
                 Create_Obstacle(lane_coefficient, OBST_FOG);
+            }
+            else if (type_coefficient == 3)
+            {
+                Create_Obstacle(lane_coefficient, OBST_FOOTBALL);
+            }
+            else if (type_coefficient == 6)
+            {
+                Create_Obstacle(lane_coefficient, OBST_MAGNET);
             }
             else
             {
@@ -276,6 +349,25 @@ void Obstacle_Generate()
         else
         {
             Create_Obstacle(lane_coefficient, type_coefficient);
+        }
+    }
+}
+
+void Football_Collition(obstacle_node *football)
+{
+    obstacle_node *p_ob = football->next, *prev = football;
+    while (p_ob)
+    {
+        if (p_ob->obst.type <= OBST_WALL && SDL_HasIntersection(&p_ob->obst.obstacle, &football->obst.obstacle))
+        {
+            prev->next = p_ob->next;
+            Delete_Obstacle(p_ob);
+            p_ob = prev->next;
+        }
+        else
+        {
+            prev = p_ob;
+            p_ob = p_ob->next;
         }
     }
 }

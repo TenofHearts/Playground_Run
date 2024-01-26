@@ -8,13 +8,14 @@ void Background_Motion()
 
 void Motion()
 {
+    SDL_RenderClear(app.rdr);
     Background_Motion();
     Obstacle_Motion();
     Character_Motion();
     Score_Update();
     Baby_Mode();
     Display_Frame();
-    Deal_Invincible();
+    Deal_Stage();
     Deal_Fogtrap();
     SDL_RenderPresent(app.rdr);
 }
