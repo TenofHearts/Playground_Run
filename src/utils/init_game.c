@@ -17,7 +17,6 @@ void Init_Game()
     app.runway.head = NULL;
     app.runway.tail = NULL;
     app.obstacle_texture = (SDL_Texture **)malloc(OBST_NUM * sizeof(SDL_Texture *));
-    Init_Texture();
     app.score = 0;
     app.runway.prev_type = OBST_NUM;
 }
@@ -45,6 +44,7 @@ void Init_Window()
     }
     SDL_FreeSurface(jpg_surf);
     Init_Audio();
+    Init_Texture();
     srand(time(NULL));
 }
 
