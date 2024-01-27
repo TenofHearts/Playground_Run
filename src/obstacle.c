@@ -57,6 +57,7 @@ void Create_Obstacle(int lane, int type)
     }
     else
     {
+        // SDL_Log("Create Obstacle success! type = %d\n", p_ob->obst.type);
         app.runway.tail->next = p_ob;
         app.runway.tail = p_ob;
     }
@@ -81,9 +82,10 @@ void Obstacle_Motion()
             }
             if (p_ob == NULL)
             {
-                app.runway.tail = NULL;
+                app.runway.tail = prev;
             }
             Delete_Obstacle(temp);
+            continue;
         }
         else if (p_ob->obst.type == MOVING_FOOTBALL)
         {
@@ -98,7 +100,7 @@ void Obstacle_Motion()
                 }
                 else
                 {
-                    app.runway.head = app.runway.head->next;
+                    app.runway.head = p_ob->next;
                 }
                 obstacle_node *temp = p_ob;
                 p_ob = p_ob->next;
@@ -107,12 +109,7 @@ void Obstacle_Motion()
                     app.runway.tail = prev;
                 }
                 Delete_Obstacle(temp);
-            }
-            else
-            {
-                SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
-                prev = p_ob;
-                p_ob = p_ob->next;
+                continue;
             }
         }
         else
@@ -135,36 +132,15 @@ void Obstacle_Motion()
                 Collition_Event(&p_ob->obst.type);
                 if (app.character.death == 0 && p_ob->obst.type != MOVING_FOOTBALL)
                 {
-                    if (prev)
-                    {
-                        prev->next = p_ob->next;
-                    }
-                    else
-                    {
-                        app.runway.head = app.runway.head->next;
-                    }
-                    obstacle_node *temp = p_ob;
-                    p_ob = p_ob->next;
-                    if (p_ob == NULL)
-                    {
-                        app.runway.tail = prev;
-                    }
-                    Delete_Obstacle(temp);
+                    p_ob->obst.type = NOTHING;
+                    p_ob->obst.texture = app.nothing;
+                    p_ob->obst.lane = NOTHING;
                 }
-                else
-                {
-                    SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
-                    prev = p_ob;
-                    p_ob = p_ob->next;
-                }
-            }
-            else
-            {
-                SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
-                prev = p_ob;
-                p_ob = p_ob->next;
             }
         }
+        SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
+        prev = p_ob;
+        p_ob = p_ob->next;
     }
 }
 
@@ -242,7 +218,7 @@ void Collition_Event(int *type)
 
 void Delete_Obstacle(obstacle_node *obstacle)
 {
-    // SDL_Log("Delete_Obstacle success, type = %d\n", obstacle->obst.type);
+    int temp = obstacle->obst.type;
     if (obstacle->next == NULL)
     {
         app.runway.tail = NULL;
@@ -252,6 +228,7 @@ void Delete_Obstacle(obstacle_node *obstacle)
         obstacle->next = NULL;
     }
     free(obstacle);
+    SDL_Log("Delete_Obstacle success, type = %d\n", temp);
 }
 void Delete_Runway()
 {
@@ -316,6 +293,10 @@ void Deal_Fogtrap()
             SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
         }
     }
+    else
+    {
+        fog_rect.x = WIN_W;
+    }
 }
 
 void Obstacle_Generate()
@@ -368,18 +349,11 @@ void Football_Collition(obstacle_node *football)
     {
         if (p_ob->obst.type <= OBST_WALL && SDL_HasIntersection(&p_ob->obst.obstacle, &football->obst.obstacle))
         {
-            prev->next = p_ob->next;
-            Delete_Obstacle(p_ob);
-            p_ob = prev->next;
-            if (p_ob == NULL)
-            {
-                app.runway.tail = prev;
-            }
+            p_ob->obst.type = NOTHING;
+            p_ob->obst.lane = NOTHING;
+            p_ob->obst.texture = app.nothing;
         }
-        else
-        {
-            prev = p_ob;
-            p_ob = p_ob->next;
-        }
+        prev = p_ob;
+        p_ob = p_ob->next;
     }
 }

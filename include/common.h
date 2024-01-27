@@ -68,6 +68,7 @@
 #define OBST_FOOTBALL 6
 #define OBST_MAGNET 7
 #define MOVING_FOOTBALL 1000
+#define NOTHING 2000
 #define OBST_NUM 8
 
 #define FOG_TIME 7000
@@ -120,6 +121,7 @@ typedef struct
     Time time;
     SDL_Texture **obstacle_texture;
     int baby_mode;
+    SDL_Texture *nothing;
 } App;
 
 extern App app;

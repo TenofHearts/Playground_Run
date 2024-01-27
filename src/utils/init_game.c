@@ -70,6 +70,10 @@ void Destroy_Texture()
             SDL_DestroyTexture(app.obstacle_texture[i]);
         }
     }
+    if (app.nothing)
+    {
+        SDL_DestroyTexture(app.nothing);
+    }
 }
 void Init_Texture()
 {
@@ -173,6 +177,17 @@ void Init_Texture()
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
+    SDL_Surface *nothing_surf = IMG_Load("res/image/nothing_1.png");
+    if (nothing_surf == NULL)
+    {
+        HANDLE_ERROR("IMG_Load");
+    }
+    app.nothing = SDL_CreateTextureFromSurface(app.rdr, nothing_surf);
+    if (app.nothing == NULL)
+    {
+        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+    }
+    SDL_FreeSurface(nothing_surf);
     SDL_FreeSurface(magnet_surf);
     SDL_FreeSurface(football_surf);
     SDL_FreeSurface(fogtrap_surf);
