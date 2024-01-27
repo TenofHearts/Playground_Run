@@ -4,6 +4,8 @@ extern int lane_y[3];
 
 SDL_Rect fog_rect = {WIN_W, 0, WIN_H, WIN_H};
 
+int magnet_x = MAGNET_X;
+
 void Create_Obstacle(int lane, int type)
 {
     obstacle_node *p_ob = (obstacle_node *)malloc(sizeof(obstacle_node));
@@ -115,7 +117,7 @@ void Obstacle_Motion()
         else
         {
             p_ob->obst.obstacle.x -= app.speed;
-            if (app.character.magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= MAGNET_X)
+            if (app.character.magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= magnet_x)
             {
                 p_ob->obst.obstacle.y += (app.character.character.y - p_ob->obst.obstacle.y) / 3;
                 p_ob->obst.obstacle.x += (app.character.character.x - p_ob->obst.obstacle.x) / 3;
@@ -123,7 +125,11 @@ void Obstacle_Motion()
                 p_ob->obst.lane = app.character.lane;
                 if (SDL_GetTicks64() - app.time.magnet_time >= MAGNET_TIME)
                 {
-                    app.character.magnet = 0;
+                    magnet_x -= app.speed;
+                    if (magnet_x <= 0)
+                    {
+                        app.character.magnet = 0;
+                    }
                 }
             }
             p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
@@ -209,6 +215,7 @@ void Collition_Event(int *type)
         break;
     case OBST_MAGNET:
         app.character.magnet = 1;
+        magnet_x = MAGNET_X;
         app.time.magnet_time = SDL_GetTicks64();
         break;
     default:
@@ -344,7 +351,7 @@ void Obstacle_Generate()
 
 void Football_Collition(obstacle_node *football)
 {
-    obstacle_node *p_ob = football->next, *prev = football;
+    obstacle_node *p_ob = football->next;
     while (p_ob)
     {
         if (p_ob->obst.type <= OBST_WALL && SDL_HasIntersection(&p_ob->obst.obstacle, &football->obst.obstacle))
@@ -353,7 +360,6 @@ void Football_Collition(obstacle_node *football)
             p_ob->obst.lane = NOTHING;
             p_ob->obst.texture = app.nothing;
         }
-        prev = p_ob;
         p_ob = p_ob->next;
     }
 }
