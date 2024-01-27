@@ -67,29 +67,20 @@ void Create_Obstacle(int lane, int type)
 
 void Obstacle_Motion()
 {
+    while (app.runway.head && app.runway.head->obst.obstacle.x <= -SQR_LEN)
+    {
+        obstacle_node *temp = app.runway.head;
+        app.runway.head = app.runway.head->next;
+        if (app.runway.head == NULL)
+        {
+            app.runway.tail = NULL;
+        }
+        Delete_Obstacle(temp);
+    }
     obstacle_node *p_ob = app.runway.head, *prev = NULL;
     while (p_ob)
     {
-        if (p_ob->obst.obstacle.x <= -SQR_LEN)
-        {
-            obstacle_node *temp = p_ob;
-            p_ob = p_ob->next;
-            if (prev)
-            {
-                prev->next = p_ob;
-            }
-            else
-            {
-                app.runway.head = p_ob;
-            }
-            if (p_ob == NULL)
-            {
-                app.runway.tail = prev;
-            }
-            Delete_Obstacle(temp);
-            continue;
-        }
-        else if (p_ob->obst.type == MOVING_FOOTBALL)
+        if (p_ob->obst.type == MOVING_FOOTBALL)
         {
             p_ob->obst.obstacle.x += 10;
             p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
@@ -117,7 +108,7 @@ void Obstacle_Motion()
         else
         {
             p_ob->obst.obstacle.x -= app.speed;
-            if (app.character.magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= magnet_x)
+            if (app.character.magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= magnet_x && p_ob->obst.obstacle.x >= -SQR_LEN)
             {
                 p_ob->obst.obstacle.y += (app.character.character.y - p_ob->obst.obstacle.y) / 3;
                 p_ob->obst.obstacle.x += (app.character.character.x - p_ob->obst.obstacle.x) / 3;
