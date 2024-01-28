@@ -71,8 +71,9 @@
 #define NOTHING 2000
 #define OBST_NUM 8
 
+#define INVINCIBLE_TIME 15000
 #define FOG_TIME 7000
-#define MAGNET_TIME 7000
+#define MAGNET_TIME 5000
 
 typedef struct
 {
@@ -104,7 +105,7 @@ typedef struct
 
 typedef struct
 {
-    Uint32 duck_time, frame_time, fog_time, magnet_time;
+    Uint32 duck_time, frame_time, fog_time, magnet_time, invincible_time;
 } Time;
 
 typedef struct

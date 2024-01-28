@@ -166,6 +166,10 @@ void Collition_Event(int *type)
         else if (app.character.invincible > 0)
         {
             app.character.invincible--;
+            if (app.baby_mode == 0)
+            {
+                app.time.invincible_time = SDL_GetTicks64();
+            }
         }
         break;
     case OBST_DUCK:
@@ -176,6 +180,10 @@ void Collition_Event(int *type)
         else if (app.character.invincible > 0)
         {
             app.character.invincible--;
+            if (app.baby_mode == 0)
+            {
+                app.time.invincible_time = SDL_GetTicks64();
+            }
         }
         break;
     case OBST_WALL:
@@ -186,6 +194,10 @@ void Collition_Event(int *type)
         else if (app.character.invincible > 0)
         {
             app.character.invincible--;
+            if (app.baby_mode == 0)
+            {
+                app.time.invincible_time = SDL_GetTicks64();
+            }
         }
         break;
     case OBST_COIN:
@@ -194,6 +206,10 @@ void Collition_Event(int *type)
         break;
     case OBST_SHIELD:
         app.score += 5;
+        if (app.character.invincible == 0 && app.baby_mode == 0)
+        {
+            app.time.invincible_time = SDL_GetTicks64();
+        }
         app.character.invincible++;
         break;
     case OBST_FOG:
@@ -253,6 +269,11 @@ void Deal_Stage()
         img.h = 20;
         img.w = 10 * strlen(invincible);
         Print_Text(img, fg_w, invincible, 20);
+        if (app.baby_mode == 0 && SDL_GetTicks64() - app.time.invincible_time >= INVINCIBLE_TIME)
+        {
+            app.character.invincible--;
+            app.time.invincible_time = SDL_GetTicks64();
+        }
     }
     if (app.character.magnet)
     {
@@ -298,7 +319,7 @@ void Deal_Fogtrap()
 }
 
 void Obstacle_Generate()
-{ /**/
+{
     int generate_coefficient = 0, lane_coefficient, type_coefficient;
     generate_coefficient = rand() % 4;
     if (generate_coefficient <= 2)
