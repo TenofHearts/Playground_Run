@@ -19,6 +19,9 @@ void Delay(int ms)
                 case B:
                     app.baby_mode = (app.baby_mode + 1) % 2;
                     break;
+                case M:
+                    app.mute = (app.mute + 1) % 2;
+                    break;
                 default:
                     break;
                 }
@@ -84,7 +87,7 @@ void Game()
             case SDL_QUIT:
                 exit(0);
             case SDL_KEYDOWN:
-                // SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
+                SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
                 switch (event.key.keysym.scancode)
                 {
                 case ESC:
@@ -123,6 +126,9 @@ void Game()
                 case B:
                     app.baby_mode = (app.baby_mode + 1) % 2;
                     Score_Handle(1);
+                    break;
+                case M:
+                    app.mute = (app.mute + 1) % 2;
                     break;
                 /*For testing purposes only*/
                 case T:

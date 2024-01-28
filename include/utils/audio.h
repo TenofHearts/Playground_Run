@@ -11,5 +11,6 @@ void Play_Coin_Soundeffect();
 void Play_Jump_Soundeffect();
 void Callback(void *userdata, Uint8 *stream, int len);
 void Restart_Audio();
+void Deal_Mute();
 
 #endif

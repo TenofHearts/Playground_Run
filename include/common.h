@@ -51,6 +51,7 @@
 #define D 7
 #define T 23
 #define B 5
+#define M 16
 #define UP 82
 #define LEFT 80
 #define DOWN 81
@@ -123,6 +124,7 @@ typedef struct
     SDL_Texture **obstacle_texture;
     int baby_mode;
     SDL_Texture *nothing;
+    int mute;
 } App;
 
 extern App app;

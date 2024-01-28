@@ -96,6 +96,9 @@ void Death_Menu()
                 case B:
                     app.baby_mode = (app.baby_mode + 1) % 2;
                     break;
+                case M:
+                    app.mute = (app.mute + 1) % 2;
+                    break;
                 default:
                     break;
                 }

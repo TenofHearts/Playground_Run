@@ -43,6 +43,7 @@ void Start()
     Print_Text(start_button, fg_b, "Start", 50);
     Print_Text(exit_button, fg_b, "Exit", 50);
     SDL_RenderPresent(app.rdr);
+    Play_BGM();
     SDL_Event event;
     while (1)
     {
@@ -118,6 +119,9 @@ void Start()
                 case B:
                     app.baby_mode = (app.baby_mode + 1) % 2;
                     break;
+                case M:
+                    app.mute = (app.mute + 1) % 2;
+                    break;
                 default:
                     break;
                 }
@@ -125,7 +129,7 @@ void Start()
             default:
                 break;
             }
-            Play_BGM();
         }
+        Deal_Mute();
     }
 }

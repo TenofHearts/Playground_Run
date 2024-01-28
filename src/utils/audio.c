@@ -9,6 +9,9 @@ SDL_AudioSpec audio_spec;
 Mix_Chunk *coin_soundeffect = NULL;
 Mix_Chunk *jump_soundeffect = NULL;
 
+SDL_Rect mute_rect = {730, 0, 100, 40};
+SDL_Color fg_w = {255, 255, 255, 255};
+
 void Init_Audio()
 {
     if (SDL_LoadWAV("res/audio/bgm_1.wav", &audio_spec, &audio_buf, &audio_len) == NULL)
@@ -34,7 +37,10 @@ void Deinit_Audio()
 
 void Play_BGM()
 {
-    SDL_PauseAudioDevice(device_id, 0);
+    if (app.mute % 2 == 0)
+    {
+        SDL_PauseAudioDevice(device_id, 0);
+    }
 }
 void Pause_BGM()
 {
@@ -43,11 +49,17 @@ void Pause_BGM()
 
 void Play_Coin_Soundeffect()
 {
-    Mix_PlayChannel(-1, coin_soundeffect, 0);
+    if (app.mute % 2 == 0)
+    {
+        Mix_PlayChannel(-1, coin_soundeffect, 0);
+    }
 }
 void Play_Jump_Soundeffect()
 {
-    Mix_PlayChannel(-1, jump_soundeffect, 0);
+    if (app.mute % 2 == 0)
+    {
+        Mix_PlayChannel(-1, jump_soundeffect, 0);
+    }
 }
 
 void Callback(void *userdata, Uint8 *stream, int len)
@@ -68,4 +80,23 @@ void Callback(void *userdata, Uint8 *stream, int len)
 void Restart_Audio()
 {
     audio_pos = 0;
+}
+
+void Deal_Mute()
+{
+    if (app.mute % 2)
+    {
+        Print_Text(mute_rect, fg_w, "Mute", 30);
+        if (app.mute == 1)
+        {
+            Pause_BGM();
+            Restart_Audio();
+            app.mute += 2;
+        }
+    }
+    else if (app.mute == 0)
+    {
+        Play_BGM();
+        app.mute += 2;
+    }
 }

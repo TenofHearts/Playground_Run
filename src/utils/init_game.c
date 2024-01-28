@@ -23,6 +23,7 @@ void Init_Game()
 
 void Init_Window()
 {
+    app.mute = 0;
     app.baby_mode = 0;
     app.win_rect.x = 1750;
     app.win_rect.y = 0;

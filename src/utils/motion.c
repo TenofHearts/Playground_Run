@@ -17,5 +17,6 @@ void Motion()
     Display_Frame();
     Deal_Stage();
     Deal_Fogtrap();
+    Deal_Mute();
     SDL_RenderPresent(app.rdr);
 }
