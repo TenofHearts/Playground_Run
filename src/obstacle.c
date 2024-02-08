@@ -242,7 +242,7 @@ void Delete_Obstacle(obstacle_node *obstacle)
         obstacle->next = NULL;
     }
     free(obstacle);
-    SDL_Log("Delete_Obstacle success, type = %d\n", temp);
+    // SDL_Log("Delete_Obstacle success, type = %d\n", temp);
 }
 void Delete_Runway()
 {
