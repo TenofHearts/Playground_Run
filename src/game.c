@@ -87,7 +87,7 @@ void Game()
             case SDL_QUIT:
                 exit(0);
             case SDL_KEYDOWN:
-                // SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
+                SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
                 switch (event.key.keysym.scancode)
                 {
                 case ESC:
