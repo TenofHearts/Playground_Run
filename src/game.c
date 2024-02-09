@@ -1,4 +1,5 @@
 #include "game.h"
+#include "utils/character_motion.h"
 
 void Delay(int ms)
 {
@@ -38,13 +39,17 @@ void Delay(int ms)
 void Transition_Animation_2()
 {
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
-    for (; app.character.character.x < CHARACTER_START; app.character.character.x++)
+    for (int i = 0; i < app.player; i++)
     {
-        SDL_RenderClear(app.rdr);
-        SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
-        SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
-        SDL_RenderPresent(app.rdr);
-        SDL_Delay(3);
+        for (; app.character[i].character.x < CHARACTER_START + i * 30; app.character[i].character.x++)
+        {
+            SDL_RenderClear(app.rdr);
+            SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
+            SDL_RenderCopy(app.rdr, app.character[0].texture, NULL, &app.character[0].character);
+            SDL_RenderCopy(app.rdr, app.character[1].texture, NULL, &app.character[1].character);
+            SDL_RenderPresent(app.rdr);
+            SDL_Delay(3);
+        }
     }
     SDL_Color fg_w = {255, 255, 255, 255};
     SDL_Rect numbers_rect[3] = {{285, 175, 100, 100}, {385, 175, 100, 100}, {485, 175, 100, 100}};
@@ -59,14 +64,20 @@ void Transition_Animation_2()
     Delay(500);
     SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
-    SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
+    for (int i = 0; i < app.player; i++)
+    {
+        SDL_RenderCopy(app.rdr, app.character[i].texture, NULL, &app.character[i].character);
+    }
     SDL_Rect text_rect = {305, 175, 220, 100};
     Print_Text(text_rect, fg_w, "GO!!!!", 60);
     SDL_RenderPresent(app.rdr);
     Delay(1000);
     SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
-    SDL_RenderCopy(app.rdr, app.character.texture, NULL, &app.character.character);
+    for (int i = 0; i < app.player; i++)
+    {
+        SDL_RenderCopy(app.rdr, app.character[i].texture, NULL, &app.character[i].character);
+    }
     SDL_RenderPresent(app.rdr);
 }
 
@@ -100,28 +111,28 @@ void Game()
                     Death_Menu();
                     return;
                 case A:
-                    Switch_Lane_L();
+                    Switch_Lane_L(&app.character[0]);
                     break;
                 case LEFT:
-                    Switch_Lane_L();
+                    Switch_Lane_L(&app.character[1 % app.player]);
                     break;
                 case D:
-                    Switch_Lane_R();
+                    Switch_Lane_R(&app.character[0]);
                     break;
                 case RIGHT:
-                    Switch_Lane_R();
+                    Switch_Lane_R(&app.character[1 % app.player]);
                     break;
                 case W:
-                    Character_Jump();
+                    Character_Jump(&app.character[0]);
                     break;
                 case UP:
-                    Character_Jump();
+                    Character_Jump(&app.character[1 % app.player]);
                     break;
                 case S:
-                    Character_Duck();
+                    Character_Duck(&app.character[0]);
                     break;
                 case DOWN:
-                    Character_Duck();
+                    Character_Duck(&app.character[1 % app.player]);
                     break;
                 case B:
                     app.baby_mode = (app.baby_mode + 1) % 2;
@@ -132,7 +143,7 @@ void Game()
                     break;
                 /*For testing purposes only*/
                 case T:
-                    Character_Run();
+                    Character_Run(&app.character[0]);
                     break;
                 default:
                     break;
@@ -147,10 +158,13 @@ void Game()
         if (steps >= SQR_LEN)
         {
             Obstacle_Generate();
-            app.score++;
+            for (int i = 0; i < app.player; i++)
+            {
+                app.character[i].score++;
+            }
             steps = 0;
         }
-        if (app.character.death)
+        if (app.character[0].death || app.character[1].death)
         {
             Death_Menu();
             return;

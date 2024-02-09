@@ -2,28 +2,32 @@
 
 void Init_Game()
 {
-    app.character.acceleration_y = -1;
-    app.character.mode = CHARACTER_MODE_RUN;
-    app.character.speed_y = 0;
-    app.character.character.x = -SQR_LEN;
-    app.character.lane = 1;
-    app.character.character.y = LANE_TWO_Y;
-    app.character.character.w = SQR_LEN;
-    app.character.character.h = SQR_LEN;
-    app.character.invincible = 0;
-    app.character.death = 0;
-    app.character.fog = 0;
-    app.character.magnet = 0;
+    for (int i = 0; i < 2; i++)
+    {
+        app.character[i].acceleration_y = -1;
+        app.character[i].mode = CHARACTER_MODE_RUN;
+        app.character[i].speed_y = 0;
+        app.character[i].character.x = -SQR_LEN;
+        app.character[i].lane = 1;
+        app.character[i].character.y = LANE_TWO_Y;
+        app.character[i].character.w = SQR_LEN;
+        app.character[i].character.h = SQR_LEN;
+        app.character[i].invincible = 0;
+        app.character[i].death = 0;
+        app.character[i].magnet = 0;
+        app.character[i].score = 0;
+    }
+    app.fog = 0;
     app.speed = 5;
     app.runway.head = NULL;
     app.runway.tail = NULL;
-    app.score = 0;
     app.runway.prev_type = OBST_NUM;
 }
 
 void Init_Window()
 {
     app.mute = 0;
+    app.player = 0;
     app.baby_mode = 1;
     app.win_rect.x = 1750;
     app.win_rect.y = 0;
@@ -44,6 +48,7 @@ void Init_Window()
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
     SDL_FreeSurface(jpg_surf);
+    app.character = (character *)malloc(2 * sizeof(character));
     Init_Audio();
     app.obstacle_texture = (SDL_Texture **)malloc(OBST_NUM * sizeof(SDL_Texture *));
     Init_Texture();
@@ -56,13 +61,16 @@ void Destroy_Texture()
     {
         SDL_DestroyTexture(app.background_texture);
     }
-    if (app.character.texture)
+    for (int i = 0; i < 2; i++)
     {
-        SDL_DestroyTexture(app.character.texture);
+        if (app.character[i].texture)
+        {
+            SDL_DestroyTexture(app.character[i].texture);
+        }
     }
-    if (app.character.fog_texture)
+    if (app.fog_texture)
     {
-        SDL_DestroyTexture(app.character.fog_texture);
+        SDL_DestroyTexture(app.fog_texture);
     }
     for (int i = 0; i < OBST_NUM; i++)
     {
@@ -78,23 +86,29 @@ void Destroy_Texture()
 }
 void Init_Texture()
 {
-    SDL_Surface *character_surf = IMG_Load("res/image/character_1.png");
-    if (character_surf == NULL)
+    for (int i = 0; i < 2; i++)
     {
-        HANDLE_ERROR("IMG_Load");
-    }
-    app.character.texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
-    if (app.character.texture == NULL)
-    {
-        HANDLE_ERROR("SDL_CreateTextureFromSurface");
+        char temp[30] = {0};
+        sprintf(temp, "res/image/character_%d.png", i + 1);
+        SDL_Surface *character_surf = IMG_Load(temp);
+        if (character_surf == NULL)
+        {
+            HANDLE_ERROR("IMG_Load");
+        }
+        app.character[i].texture = SDL_CreateTextureFromSurface(app.rdr, character_surf);
+        if (app.character[i].texture == NULL)
+        {
+            HANDLE_ERROR("SDL_CreateTextureFromSurface");
+        }
+        SDL_FreeSurface(character_surf);
     }
     SDL_Surface *fog_surf = IMG_Load("res/image/fog_1.png");
     if (fog_surf == NULL)
     {
         HANDLE_ERROR("IMG_Load");
     }
-    app.character.fog_texture = SDL_CreateTextureFromSurface(app.rdr, fog_surf);
-    if (app.character.fog_texture == NULL)
+    app.fog_texture = SDL_CreateTextureFromSurface(app.rdr, fog_surf);
+    if (app.fog_texture == NULL)
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
@@ -198,5 +212,4 @@ void Init_Texture()
     SDL_FreeSurface(duck_surf);
     SDL_FreeSurface(jump_surf);
     SDL_FreeSurface(fog_surf);
-    SDL_FreeSurface(character_surf);
 }

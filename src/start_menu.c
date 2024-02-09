@@ -20,6 +20,109 @@ void Transition_Animation_1()
     SDL_FreeSurface(jpg_surf);
 }
 
+void Select_Player()
+{
+    SDL_RenderClear(app.rdr);
+    SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
+    SDL_Rect single_player = {315, 275, 200, 50};
+    SDL_Rect battle_mode = {315, 325, 200, 50};
+    SDL_Color fg_b = {0, 0, 0, 255}, fg_lg = {100, 100, 100, 255}, fg_g = {200, 200, 200, 255};
+    Print_Text(single_player, fg_b, "Single Player", 50);
+    Print_Text(battle_mode, fg_b, "Battle Mode", 50);
+    SDL_RenderPresent(app.rdr);
+    SDL_Event event;
+    while (1)
+    {
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                exit(0);
+            case SDL_MOUSEBUTTONDOWN:
+                SDL_Log("Down(%d, %d),button = %d, clicks = %d\n", event.button.x, event.button.y, event.button.button, event.button.clicks);
+                pt.x = event.button.x;
+                pt.y = event.button.y;
+                if (SDL_PointInRect(&pt, &single_player))
+                {
+                    Print_Text(single_player, fg_g, "Single Player", 50);
+                    SDL_RenderPresent(app.rdr);
+                }
+                else if (SDL_PointInRect(&pt, &battle_mode))
+                {
+                    Print_Text(battle_mode, fg_g, "Battle Mode", 50);
+                    SDL_RenderPresent(app.rdr);
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                SDL_Log("Up(%d, %d),button = %d, clicks = %d\n", event.button.x, event.button.y, event.button.button, event.button.clicks);
+                if (SDL_PointInRect(&pt, &single_player))
+                {
+                    app.player = 1;
+                    Print_Text(single_player, fg_b, "Single Player", 50);
+                    SDL_RenderPresent(app.rdr);
+                    Pause_BGM();
+                    Play_Coin_Soundeffect();
+                    Transition_Animation_1();
+                    return;
+                }
+                else if (SDL_PointInRect(&pt, &battle_mode))
+                {
+                    app.player = 2;
+                    Print_Text(battle_mode, fg_b, "Battle Mode", 50);
+                    SDL_RenderPresent(app.rdr);
+                    Pause_BGM();
+                    Play_Coin_Soundeffect();
+                    Transition_Animation_1();
+                    return;
+                }
+                break;
+            case SDL_MOUSEMOTION:
+                SDL_Point pt_m = {event.motion.x, event.motion.y};
+                if (SDL_PointInRect(&pt_m, &single_player))
+                {
+                    Print_Text(single_player, fg_lg, "Single Player", 50);
+                    Print_Text(battle_mode, fg_b, "Battle Mode", 50);
+                    SDL_RenderPresent(app.rdr);
+                }
+                else if (SDL_PointInRect(&pt_m, &battle_mode))
+                {
+                    Print_Text(single_player, fg_b, "Single Player", 50);
+                    Print_Text(battle_mode, fg_lg, "Battle Mode", 50);
+                    SDL_RenderPresent(app.rdr);
+                }
+                else
+                {
+                    Print_Text(single_player, fg_b, "Single Player", 50);
+                    Print_Text(battle_mode, fg_b, "Battle Mode", 50);
+                    SDL_RenderPresent(app.rdr);
+                }
+                break;
+            case SDL_KEYDOWN:
+                SDL_Log("down: sym = %d, scancode = %d\n", event.key.keysym.sym, event.key.keysym.scancode);
+                switch (event.key.keysym.scancode)
+                {
+                case ESC:
+                    exit(0);
+                    break;
+                case B:
+                    app.baby_mode = (app.baby_mode + 1) % 2;
+                    break;
+                case M:
+                    app.mute = (app.mute + 1) % 2;
+                    break;
+                default:
+                    break;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        Deal_Mute();
+    }
+}
+
 void Start()
 {
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
@@ -75,9 +178,9 @@ void Start()
                 if (SDL_PointInRect(&pt, &start_button))
                 {
                     Print_Text(start_button, fg_b, "Start", 50);
-                    Pause_BGM();
+                    SDL_RenderPresent(app.rdr);
                     Play_Coin_Soundeffect();
-                    Transition_Animation_1();
+                    Select_Player();
                     return;
                 }
                 else if (SDL_PointInRect(&pt, &exit_button))

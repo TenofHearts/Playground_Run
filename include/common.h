@@ -11,7 +11,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 #include "utils/print_text.h"
-#include "utils/character_motion.h"
 #include "utils/score.h"
 #include "utils/init_game.h"
 #include "utils/time.h"
@@ -78,9 +77,15 @@
 
 typedef struct
 {
-    int mode, speed_y, acceleration_y, lane, invincible, death, fog, magnet;
+    Uint32 duck_time, magnet_time, invincible_time;
+} Time_character;
+
+typedef struct
+{
+    int mode, speed_y, acceleration_y, lane, invincible, death, magnet, score;
     SDL_Rect character;
-    SDL_Texture *texture, *fog_texture;
+    SDL_Texture *texture;
+    Time_character time_character;
 } character;
 
 typedef struct
@@ -106,25 +111,27 @@ typedef struct
 
 typedef struct
 {
-    Uint32 duck_time, frame_time, fog_time, magnet_time, invincible_time;
+    Uint32 frame_time, fog_time;
 } Time;
 
 typedef struct
 {
     SDL_Window *window;
     SDL_Renderer *rdr;
-    character character;
+    character *character;
     runway runway;
     SDL_Rect win_rect;
     int speed;
     SDL_Rect score_board;
     SDL_Texture *background_texture;
-    int score;
     Time time;
     SDL_Texture **obstacle_texture;
     int baby_mode;
     SDL_Texture *nothing;
     int mute;
+    int player;
+    int fog;
+    SDL_Texture *fog_texture;
 } App;
 
 extern App app;

@@ -108,31 +108,25 @@ void Obstacle_Motion()
         else
         {
             p_ob->obst.obstacle.x -= app.speed;
-            if (app.character.magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= magnet_x && p_ob->obst.obstacle.x >= -SQR_LEN)
+            if (app.character[0].magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= magnet_x && p_ob->obst.obstacle.x >= -SQR_LEN)
             {
-                p_ob->obst.obstacle.y += (app.character.character.y - p_ob->obst.obstacle.y) / 3;
-                p_ob->obst.obstacle.x += (app.character.character.x - p_ob->obst.obstacle.x) / 3;
+                p_ob->obst.obstacle.y += (app.character[0].character.y - p_ob->obst.obstacle.y) / 3;
+                p_ob->obst.obstacle.x += (app.character[0].character.x - p_ob->obst.obstacle.x) / 3;
                 p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
-                p_ob->obst.lane = app.character.lane;
-                if (SDL_GetTicks64() - app.time.magnet_time >= MAGNET_TIME)
+                p_ob->obst.lane = app.character[0].lane;
+                if (SDL_GetTicks64() - app.character[0].time_character.magnet_time >= MAGNET_TIME)
                 {
                     magnet_x -= app.speed;
                     if (magnet_x <= 0)
                     {
-                        app.character.magnet = 0;
+                        app.character[0].magnet = 0;
                     }
                 }
             }
             p_ob->obst.hitbox.x = p_ob->obst.obstacle.x;
-            if (app.character.lane == p_ob->obst.lane && Collition_Detect(p_ob->obst.hitbox))
+            for (int i = 0; i < app.player; i++)
             {
-                Collition_Event(&p_ob->obst.type);
-                if (app.character.death == 0 && p_ob->obst.type != MOVING_FOOTBALL)
-                {
-                    p_ob->obst.type = NOTHING;
-                    p_ob->obst.texture = app.nothing;
-                    p_ob->obst.lane = NOTHING;
-                }
+                Collide(&app.character[i], p_ob);
             }
         }
         SDL_RenderCopy(app.rdr, p_ob->obst.texture, NULL, &p_ob->obst.obstacle);
@@ -141,89 +135,103 @@ void Obstacle_Motion()
     }
 }
 
-int Collition_Detect(SDL_Rect hitbox)
+void Collide(character *character_temp, obstacle_node *obstacle_p)
+{
+    if ((*character_temp).lane == obstacle_p->obst.lane && Collition_Detect(obstacle_p->obst.hitbox, character_temp))
+    {
+        Collition_Event(&obstacle_p->obst.type, character_temp);
+        if ((*character_temp).death == 0 && obstacle_p->obst.type != MOVING_FOOTBALL)
+        {
+            obstacle_p->obst.type = NOTHING;
+            obstacle_p->obst.texture = app.nothing;
+            obstacle_p->obst.lane = NOTHING;
+        }
+    }
+}
+
+int Collition_Detect(SDL_Rect hitbox, character *character_temp)
 {
     SDL_Rect hitbox_character[3] = {{0, 0, 65, 100}, {0, 0, 65, 100}, {25, 75, 25, 25}};
-    hitbox_character[app.character.mode].x += app.character.character.x;
-    hitbox_character[app.character.mode].y += app.character.character.y;
-    if (SDL_HasIntersection(&hitbox, &hitbox_character[app.character.mode]))
+    hitbox_character[character_temp->mode].x += character_temp->character.x;
+    hitbox_character[character_temp->mode].y += character_temp->character.y;
+    if (SDL_HasIntersection(&hitbox, &hitbox_character[character_temp->mode]))
     {
         return 1;
     }
     return 0;
 }
 
-void Collition_Event(int *type)
+void Collition_Event(int *type, character *character_temp)
 {
-
+    SDL_Log("Collide with %d\n", *type);
     switch (*type)
     {
     case OBST_JUMP:
-        if (app.character.mode != CHARACTER_MODE_JUMP && app.character.invincible == 0)
+        if ((*character_temp).mode != CHARACTER_MODE_JUMP && (*character_temp).invincible == 0)
         {
-            app.character.death = 1;
+            (*character_temp).death = 1;
         }
-        else if (app.character.invincible > 0)
+        else if ((*character_temp).invincible > 0)
         {
-            app.character.invincible--;
+            (*character_temp).invincible--;
             if (app.baby_mode == 0)
             {
-                app.time.invincible_time = SDL_GetTicks64();
+                character_temp->time_character.invincible_time = SDL_GetTicks64();
             }
         }
         break;
     case OBST_DUCK:
-        if (app.character.mode != CHARACTER_MODE_DUCK && app.character.invincible == 0)
+        if ((*character_temp).mode != CHARACTER_MODE_DUCK && (*character_temp).invincible == 0)
         {
-            app.character.death = 1;
+            (*character_temp).death = 1;
         }
-        else if (app.character.invincible > 0)
+        else if ((*character_temp).invincible > 0)
         {
-            app.character.invincible--;
+            (*character_temp).invincible--;
             if (app.baby_mode == 0)
             {
-                app.time.invincible_time = SDL_GetTicks64();
+                character_temp->time_character.invincible_time = SDL_GetTicks64();
             }
         }
         break;
     case OBST_WALL:
-        if (app.character.invincible == 0)
+        if ((*character_temp).invincible == 0)
         {
-            app.character.death = 1;
+            (*character_temp).death = 1;
         }
-        else if (app.character.invincible > 0)
+        else if ((*character_temp).invincible > 0)
         {
-            app.character.invincible--;
+            (*character_temp).invincible--;
             if (app.baby_mode == 0)
             {
-                app.time.invincible_time = SDL_GetTicks64();
+                character_temp->time_character.invincible_time = SDL_GetTicks64();
             }
         }
         break;
     case OBST_COIN:
         Play_Coin_Soundeffect();
-        app.score += 20;
+        (*character_temp).score += 20;
         break;
     case OBST_SHIELD:
-        app.score += 5;
-        if (app.character.invincible == 0 && app.baby_mode == 0)
+        (*character_temp).score += 5;
+        if (app.baby_mode == 0 && (*character_temp).invincible == 0)
         {
-            app.time.invincible_time = SDL_GetTicks64();
+            (*character_temp).time_character.invincible_time = SDL_GetTicks64();
         }
-        app.character.invincible++;
+        (*character_temp).invincible++;
         break;
     case OBST_FOG:
-        app.score -= 10;
-        app.character.fog = 1;
+        character_temp->score -= 10;
+        app.fog = 1;
         app.time.fog_time = SDL_GetTicks64();
         break;
     case OBST_FOOTBALL:
         *type = MOVING_FOOTBALL;
         break;
     case OBST_MAGNET:
-        app.character.magnet = 1;
+        (*character_temp).magnet = 1;
         magnet_x = MAGNET_X;
-        app.time.magnet_time = SDL_GetTicks64();
+        character_temp->time_character.magnet_time = SDL_GetTicks64();
         break;
     default:
         break;
@@ -257,59 +265,63 @@ void Delete_Runway()
 
 void Deal_Stage()
 {
-    if (app.character.invincible)
+    for (int i = 0; i < app.player; i++)
     {
-        SDL_Rect img = {0, 410, 40, 40};
-        SDL_Color fg_w = {255, 255, 255, 255};
-        SDL_RenderCopy(app.rdr, app.obstacle_texture[OBST_SHIELD], NULL, &img);
-        char invincible[4] = {0};
-        sprintf(invincible, "%d", app.character.invincible);
-        img.x = 10;
-        img.y = 420;
-        img.h = 20;
-        img.w = 10 * strlen(invincible);
-        Print_Text(img, fg_w, invincible, 20);
-        if (app.baby_mode == 0 && SDL_GetTicks64() - app.time.invincible_time >= INVINCIBLE_TIME)
+        if (app.character[i].invincible)
         {
-            app.character.invincible--;
-            app.time.invincible_time = SDL_GetTicks64();
+            SDL_Rect img = {0, 410, 40, 40};
+            img.x = i * 40;
+            SDL_Color fg_w = {255, 255, 255, 255};
+            SDL_RenderCopy(app.rdr, app.obstacle_texture[OBST_SHIELD], NULL, &img);
+            char invincible[4] = {0};
+            sprintf(invincible, "%d", app.character[i].invincible);
+            img.x += 10;
+            img.y = 420;
+            img.h = 20;
+            img.w = 10 * strlen(invincible);
+            Print_Text(img, fg_w, invincible, 20);
+            if (app.baby_mode == 0 && SDL_GetTicks64() - app.character[i].time_character.invincible_time >= INVINCIBLE_TIME)
+            {
+                app.character[i].invincible--;
+                app.character[i].time_character.invincible_time = SDL_GetTicks64();
+            }
         }
-    }
-    if (app.character.magnet)
-    {
-        SDL_Rect img = {40, 410, 40, 40};
-        SDL_RenderCopy(app.rdr, app.obstacle_texture[OBST_MAGNET], NULL, &img);
+        if (app.character[i].magnet)
+        {
+            SDL_Rect img = {40, 410, 40, 40};
+            SDL_RenderCopy(app.rdr, app.obstacle_texture[OBST_MAGNET], NULL, &img);
+        }
     }
 }
 void Deal_Fogtrap()
 {
-    if (app.character.fog)
+    if (app.fog)
     {
         Uint32 temp = SDL_GetTicks64() - app.time.fog_time;
         if (temp >= FOG_TIME)
         {
-            app.character.fog = 0;
+            app.fog = 0;
             fog_rect.x = WIN_W;
         }
         else if (temp >= 6500)
         {
             fog_rect.x = FOG_X + (temp - 6500) * (WIN_W - FOG_X) / 500;
-            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+            SDL_RenderCopy(app.rdr, app.fog_texture, NULL, &fog_rect);
         }
         else if (temp >= 500)
         {
             fog_rect.x = FOG_X;
-            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+            SDL_RenderCopy(app.rdr, app.fog_texture, NULL, &fog_rect);
         }
         else if (fog_rect.x <= FOG_X)
         {
             fog_rect.x = FOG_X;
-            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+            SDL_RenderCopy(app.rdr, app.fog_texture, NULL, &fog_rect);
         }
         else
         {
             fog_rect.x = FOG_X + (500 - temp) * (WIN_W - FOG_X) / 500;
-            SDL_RenderCopy(app.rdr, app.character.fog_texture, NULL, &fog_rect);
+            SDL_RenderCopy(app.rdr, app.fog_texture, NULL, &fog_rect);
         }
     }
     else
@@ -347,7 +359,14 @@ void Obstacle_Generate()
             }
             else if (type_coefficient == 6)
             {
-                Create_Obstacle(lane_coefficient, OBST_MAGNET);
+                if (app.player == 1)
+                {
+                    Create_Obstacle(lane_coefficient, OBST_MAGNET);
+                }
+                else
+                {
+                    Create_Obstacle(lane_coefficient, OBST_COIN);
+                }
             }
             else
             {

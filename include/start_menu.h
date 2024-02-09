@@ -5,5 +5,6 @@
 
 void Start();
 void Transition_Animation_1();
+void Select_Player();
 
 #endif

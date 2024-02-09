@@ -57,5 +57,6 @@ static void Quit(void)
     Destroy_Texture();
     Deinit_Audio();
     free(app.obstacle_texture);
+    free(app.character);
     SDL_Log("Exit Success\n"); // for testing purposes only
 }

@@ -1,4 +1,5 @@
 #include "utils/motion.h"
+#include "utils/character_motion.h"
 
 void Background_Motion()
 {
