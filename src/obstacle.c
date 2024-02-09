@@ -232,7 +232,7 @@ void Collition_Event(int *type)
 
 void Delete_Obstacle(obstacle_node *obstacle)
 {
-    int temp = obstacle->obst.type;
+    // int temp = obstacle->obst.type;
     if (obstacle->next == NULL)
     {
         app.runway.tail = NULL;
