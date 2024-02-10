@@ -42,7 +42,7 @@ void Transition_Animation_2()
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
     for (int i = 0; i < app.player; i++)
     {
-        for (; app.character[i].character.x < CHARACTER_START + i * 30; app.character[i].character.x++)
+        for (; app.character[i].character.x < CHARACTER_START + i * DISTANCE; app.character[i].character.x++)
         {
             SDL_RenderClear(app.rdr);
             SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);

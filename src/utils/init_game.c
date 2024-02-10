@@ -1,4 +1,5 @@
 #include "utils/init_game.h"
+#include "utils/character_motion.h"
 
 void Init_Game()
 {
@@ -17,6 +18,7 @@ void Init_Game()
         app.character[i].magnet = 0;
         app.character[i].score = 0;
     }
+    Character_Motion();
     app.fog = 0;
     app.speed = 5;
     app.runway.head = NULL;

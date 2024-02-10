@@ -79,12 +79,9 @@ void Switch_Lane_R(character *character_temp)
 
 void Character_Duck(character *character_temp)
 {
-    if (character_temp->mode != CHARACTER_MODE_DUCK)
-    {
-        character_temp->mode = CHARACTER_MODE_DUCK;
-        character_temp->character.y = lane_y[character_temp->lane];
-        character_temp->time_character.duck_time = SDL_GetTicks64();
-    }
+    character_temp->mode = CHARACTER_MODE_DUCK;
+    character_temp->character.y = lane_y[character_temp->lane];
+    character_temp->time_character.duck_time = SDL_GetTicks64();
 }
 void Character_Jump(character *character_temp)
 {

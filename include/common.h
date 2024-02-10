@@ -75,6 +75,8 @@
 #define FOG_TIME 7000
 #define MAGNET_TIME 5000
 
+#define DISTANCE 14
+
 typedef struct
 {
     Uint32 duck_time, magnet_time, invincible_time;
