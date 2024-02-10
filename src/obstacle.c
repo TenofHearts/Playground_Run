@@ -151,7 +151,7 @@ void Collide(character *character_temp, obstacle_node *obstacle_p)
 
 int Collition_Detect(SDL_Rect hitbox, character *character_temp)
 {
-    SDL_Rect hitbox_character[3] = {{0, 0, 50, 100}, {0, 0, 50, 100}, {25, 75, 25, 25}};
+    SDL_Rect hitbox_character[3] = {{0, 0, 50, 100}, {0, 0, 50, 100}, {25, 75, 30, 25}};
     hitbox_character[character_temp->mode].x += character_temp->character.x + pow(-1, (character_temp - app.character)) * DISTANCE / 2;
     hitbox_character[character_temp->mode].y += character_temp->character.y;
     if (SDL_HasIntersection(&hitbox, &hitbox_character[character_temp->mode]))
