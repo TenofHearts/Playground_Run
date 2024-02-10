@@ -38,6 +38,7 @@ void Delay(int ms)
 }
 void Transition_Animation_2()
 {
+    SDL_RenderClear(app.rdr);
     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
     for (int i = 0; i < app.player; i++)
     {

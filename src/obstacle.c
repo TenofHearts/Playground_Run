@@ -152,7 +152,7 @@ void Collide(character *character_temp, obstacle_node *obstacle_p)
 int Collition_Detect(SDL_Rect hitbox, character *character_temp)
 {
     SDL_Rect hitbox_character[3] = {{0, 0, 65, 100}, {0, 0, 65, 100}, {25, 75, 25, 25}};
-    hitbox_character[character_temp->mode].x += character_temp->character.x;
+    hitbox_character[character_temp->mode].x += character_temp->character.x - (character_temp - app.character) * 30;
     hitbox_character[character_temp->mode].y += character_temp->character.y;
     if (SDL_HasIntersection(&hitbox, &hitbox_character[character_temp->mode]))
     {
@@ -210,10 +210,10 @@ void Collition_Event(int *type, character *character_temp)
         break;
     case OBST_COIN:
         Play_Coin_Soundeffect();
-        (*character_temp).score += 20;
+        (*character_temp).score += 20 * app.player;
         break;
     case OBST_SHIELD:
-        (*character_temp).score += 5;
+        (*character_temp).score += 5 * app.player;
         if (app.baby_mode == 0 && (*character_temp).invincible == 0)
         {
             (*character_temp).time_character.invincible_time = SDL_GetTicks64();
@@ -240,7 +240,6 @@ void Collition_Event(int *type, character *character_temp)
 
 void Delete_Obstacle(obstacle_node *obstacle)
 {
-    // int temp = obstacle->obst.type;
     if (obstacle->next == NULL)
     {
         app.runway.tail = NULL;
@@ -250,7 +249,6 @@ void Delete_Obstacle(obstacle_node *obstacle)
         obstacle->next = NULL;
     }
     free(obstacle);
-    // SDL_Log("Delete_Obstacle success, type = %d\n", temp);
 }
 void Delete_Runway()
 {
