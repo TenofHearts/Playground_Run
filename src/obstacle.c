@@ -111,13 +111,13 @@ void Obstacle_Motion()
             if (app.character[0].magnet == 1 && p_ob->obst.type == OBST_COIN && p_ob->obst.obstacle.x <= magnet_x && p_ob->obst.obstacle.x >= -SQR_LEN)
             {
                 p_ob->obst.obstacle.y += (app.character[0].character.y - p_ob->obst.obstacle.y) / 3;
-                p_ob->obst.obstacle.x += (app.character[0].character.x - p_ob->obst.obstacle.x) / 3;
+                p_ob->obst.obstacle.x += (app.character[0].character.x - p_ob->obst.obstacle.x) * 4 / 9;
                 p_ob->obst.hitbox.y = p_ob->obst.obstacle.y + 75;
                 p_ob->obst.lane = app.character[0].lane;
                 if (SDL_GetTicks64() - app.character[0].time_character.magnet_time >= MAGNET_TIME)
                 {
                     magnet_x -= app.speed;
-                    if (magnet_x <= 0)
+                    if (magnet_x <= CHARACTER_START)
                     {
                         app.character[0].magnet = 0;
                     }

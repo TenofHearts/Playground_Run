@@ -27,28 +27,17 @@ void Select_Player()
     SDL_Rect single_player = {315, 275, 200, 50};
     SDL_Rect battle_mode = {315, 325, 200, 50};
     SDL_Rect rule = {215, 50, 400, 175};
-    SDL_Surface *rule_surf_1 = IMG_Load("res/image/rule_1.png");
-    if (rule_surf_1 == NULL)
+    SDL_Surface *rule_surf = IMG_Load("res/image/rule.png");
+    if (rule_surf == NULL)
     {
         HANDLE_ERROR("IMG_Load");
     }
-    SDL_Texture *rule_texture_1 = SDL_CreateTextureFromSurface(app.rdr, rule_surf_1);
-    if (rule_texture_1 == NULL)
+    SDL_Texture *rule_texture = SDL_CreateTextureFromSurface(app.rdr, rule_surf);
+    if (rule_texture == NULL)
     {
         HANDLE_ERROR("SDL_CreateTextureFromSurface");
     }
-    SDL_FreeSurface(rule_surf_1);
-    SDL_Surface *rule_surf_2 = IMG_Load("res/image/rule_2.png");
-    if (rule_surf_2 == NULL)
-    {
-        HANDLE_ERROR("IMG_Load");
-    }
-    SDL_Texture *rule_texture_2 = SDL_CreateTextureFromSurface(app.rdr, rule_surf_2);
-    if (rule_texture_2 == NULL)
-    {
-        HANDLE_ERROR("SDL_CreateTextureFromSurface");
-    }
-    SDL_FreeSurface(rule_surf_2);
+    SDL_FreeSurface(rule_surf);
     SDL_Color fg_b = {0, 0, 0, 255}, fg_lg = {100, 100, 100, 255}, fg_g = {200, 200, 200, 255};
     Print_Text(single_player, fg_b, "Single Player", 50);
     Print_Text(battle_mode, fg_b, "Battle Mode", 50);
@@ -87,8 +76,7 @@ void Select_Player()
                     Pause_BGM();
                     Play_Coin_Soundeffect();
                     SDL_RenderClear(app.rdr);
-                    SDL_DestroyTexture(rule_texture_1);
-                    SDL_DestroyTexture(rule_texture_2);
+                    SDL_DestroyTexture(rule_texture);
                     Transition_Animation_1();
                     return;
                 }
@@ -100,8 +88,7 @@ void Select_Player()
                     Pause_BGM();
                     Play_Coin_Soundeffect();
                     SDL_RenderClear(app.rdr);
-                    SDL_DestroyTexture(rule_texture_1);
-                    SDL_DestroyTexture(rule_texture_2);
+                    SDL_DestroyTexture(rule_texture);
                     Transition_Animation_1();
                     return;
                 }
@@ -112,7 +99,9 @@ void Select_Player()
                 {
                     SDL_RenderClear(app.rdr);
                     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
-                    SDL_RenderCopy(app.rdr, rule_texture_1, NULL, &rule);
+                    SDL_RenderCopy(app.rdr, rule_texture, NULL, &rule);
+                    SDL_Rect single = {365, 75, SQR_LEN, SQR_LEN};
+                    SDL_RenderCopy(app.rdr, app.character[0].texture, NULL, &single);
                     Print_Text(single_player, fg_lg, "Single Player", 50);
                     Print_Text(battle_mode, fg_b, "Battle Mode", 50);
                     SDL_RenderPresent(app.rdr);
@@ -121,7 +110,10 @@ void Select_Player()
                 {
                     SDL_RenderClear(app.rdr);
                     SDL_RenderCopy(app.rdr, app.background_texture, &app.win_rect, NULL);
-                    SDL_RenderCopy(app.rdr, rule_texture_2, NULL, &rule);
+                    SDL_RenderCopy(app.rdr, rule_texture, NULL, &rule);
+                    SDL_Rect double_1 = {305, 75, SQR_LEN, SQR_LEN}, double_2 = {425, 75, SQR_LEN, SQR_LEN};
+                    SDL_RenderCopy(app.rdr, app.character[0].texture, NULL, &double_1);
+                    SDL_RenderCopy(app.rdr, app.character[1].texture, NULL, &double_2);
                     Print_Text(single_player, fg_b, "Single Player", 50);
                     Print_Text(battle_mode, fg_lg, "Battle Mode", 50);
                     SDL_RenderPresent(app.rdr);
